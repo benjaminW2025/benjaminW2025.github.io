@@ -17,7 +17,7 @@
         body {
             font-family: 'Cormorant Garamond', 'Georgia', serif;
             font-weight: 300;
-            background-color: #000000;
+            background-color: #ffffff; /*dfcdba*/
             color: #ffffff;
             line-height: 1.6;
         }
@@ -70,29 +70,54 @@
             }
         }
 
+        /* Hero Image */
+        .hero-image {
+            height: 80vh;
+            margin: 0 3vw;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image img {
+            width: 90%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 75%;
+            display: block;
+        }
+
         /* Header */
         .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: baseline;
             padding: 2rem;
+            z-index: 10;
         }
 
         .name {
+            color:black;
             font-size: 1.6rem;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 0.05em;
+            margin-left: 7rem;
         }
 
         .nav-header {
             display: flex;
             gap: 2rem;
-            margin-right: 2rem;
+            margin-right: 6rem;
         }
 
         .nav-header a {
             text-decoration: none;
-            color: #ffffff;
+            color: black;
+            font-weight: 600;
             font-size: 1.4rem;
             letter-spacing: 0.02em;
             transition: opacity 0.3s ease;
@@ -121,6 +146,16 @@
             color: #ffffff;
         }
 
+        /* Caption */
+        .caption {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: #000000;
+            padding: 2rem 0;
+        }
+
         /* Social Links */
         .social-links {
             position: fixed;
@@ -133,7 +168,7 @@
         }
 
         .social-links a {
-            color: #ffffff;
+            color: #000000;
             text-decoration: none;
             font-size: 0.85rem;
             letter-spacing: 0.02em;
@@ -184,6 +219,13 @@
                 <a href="projects.html">Projects</a>
             </div>
         </div>
+
+        <!-- Hero Image -->
+        <div class="hero-image">
+            <img src="decor/ascii-photos/metro_ascii.png" alt="ASCII art">
+        </div>
+
+        <div class="caption">one day i'll go back to the bay of naples.</div>
 
     </div>
 
