@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+    <title>Benjamin Wang</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            font-weight: 300;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Intro Overlay */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeOut 3s ease-in-out forwards;
+            animation-delay: 1s;
+        }
+
+        .intro-text {
+            font-size: 4rem;
+            font-weight: 200;
+            letter-spacing: 0.15em;
+            color: #ffffff;
+            opacity: 1;
+            animation: introPulse 2s ease-in-out forwards;
+        }
+
+        @keyframes introPulse {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+                visibility: visible;
+            }
+            100% {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .name {
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-header {
+            display: flex;
+            gap: 2rem;
+            margin-right: 2rem;
+        }
+
+        .nav-header a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1.4rem;
+            letter-spacing: 0.02em;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-header a:hover {
+            opacity: 0.7;
+        }
+
+        /* Main Content */
+        .container {
+            width: 100%;
+        }
+
+        /* Content Sections */
+        section {
+            padding: 2rem;
+            border-bottom: 1px solid #333333;
+        }
+
+        section h2 {
+            font-size: 1.5rem;
+            font-weight: 200;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+            color: #ffffff;
+        }
+
+        /* Social Links */
+        .social-links {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            margin-right: 2rem;
+        }
+
+        .social-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.02em;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .intro-text {
+                font-size: 2.5rem;
+            }
+
+            nav a {
+                font-size: 1rem;
+            }
+
+            section h2 {
+                font-size: 1.3rem;
+            }
+
+            .social-links {
+                bottom: 2rem;
+                right: 2rem;
+                gap: 1rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Overlay -->
+    <div class="intro-overlay">
+        <div class="intro-text">Sapere aude</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="name">Benjamin Wang</div>
+            <div class="nav-header">
+                <a href="thoughts.html">Thoughts</a>
+                <a href="research.html">Research</a>
+                <a href="projects.html">Projects</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Social Links -->
+    <div class="social-links">
+        <a href="https://x.com/YOUR_HANDLE" target="_blank">X</a>
+        <a href="https://github.com/YOUR_HANDLE" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/in/YOUR_HANDLE" target="_blank">LinkedIn</a>
+        <a href="mailto:YOUR_EMAIL">Contact</a>
+    </div>
+</body>
+</html>
