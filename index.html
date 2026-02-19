@@ -149,7 +149,7 @@
         /* Caption */
         .caption {
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 2rem;
             font-weight: 600;
             letter-spacing: 0.1em;
             color: #000000;
@@ -178,6 +178,576 @@
         .social-links a:hover {
             opacity: 0.7;
         }
+
+        /* Solar System */
+        .solar-system {
+            position: relative;
+            width: 900px;
+            height: 900px;
+            margin: 2rem auto 6rem;
+            overflow: visible;
+        }
+
+        .solar-system .sun {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            margin: -15px 0 0 -15px;
+            border-radius: 50%;
+            border: 2px solid #000;
+            background: transparent;
+            cursor: pointer;
+            z-index: 10;
+            animation: sunPulse 3s ease-in-out infinite;
+        }
+
+        .solar-system .sun::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 50%;
+            border: 1px dashed #000;
+            opacity: 0.4;
+        }
+
+        @keyframes sunPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px dashed rgba(0, 0, 0, 0.25);
+            border-radius: 50%;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        .orbit-1 {
+            width: 120px;
+            height: 120px;
+            margin: -60px 0 0 -60px;
+            animation: orbit 27s linear infinite;
+        }
+
+        .orbit-2 {
+            width: 200px;
+            height: 200px;
+            margin: -100px 0 0 -100px;
+            animation: orbit 47s linear infinite reverse;
+        }
+
+        .orbit-3 {
+            width: 300px;
+            height: 300px;
+            margin: -150px 0 0 -150px;
+            animation: orbit 67s linear infinite;
+        }
+
+        .orbit-4 {
+            width: 390px;
+            height: 390px;
+            margin: -195px 0 0 -195px;
+            animation: orbit 93s linear infinite reverse;
+        }
+
+        .orbit-5 {
+            width: 480px;
+            height: 480px;
+            margin: -240px 0 0 -240px;
+            animation: orbit 127s linear infinite;
+        }
+
+        .orbit-6 {
+            width: 560px;
+            height: 560px;
+            margin: -280px 0 0 -280px;
+            animation: orbit 167s linear infinite reverse;
+        }
+
+        @keyframes orbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .celestial {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 5;
+        }
+
+        .celestial:hover {
+            transform: scale(1.3);
+        }
+
+        .celestial .caption-label {
+            position: absolute;
+            white-space: nowrap;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.75rem;
+            color: #000;
+            letter-spacing: 0.08em;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            top: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .celestial.active .caption-label {
+            opacity: 1;
+        }
+
+        /* Counter-rotate so objects stay upright */
+        .orbit-1 .celestial { animation: counterOrbit 27s linear infinite; }
+        .orbit-2 .celestial { animation: counterOrbit 47s linear infinite reverse; }
+        .orbit-3 .celestial { animation: counterOrbit 67s linear infinite; }
+        .orbit-4 .celestial { animation: counterOrbit 93s linear infinite reverse; }
+        .orbit-5 .celestial { animation: counterOrbit 127s linear infinite; }
+        .orbit-6 .celestial { animation: counterOrbit 167s linear infinite reverse; }
+
+        @keyframes counterOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+
+        /* Individual celestial objects */
+        .planet-small {
+            top: -5px;
+            left: 50%;
+            margin-left: -5px;
+            width: 10px;
+            height: 10px;
+            border: 1.5px solid #000;
+            border-radius: 50%;
+        }
+
+        .planet-medium {
+            top: -8px;
+            left: 50%;
+            margin-left: -8px;
+            width: 16px;
+            height: 16px;
+            border: 1.5px solid #000;
+            border-radius: 50%;
+        }
+
+        .planet-medium .moon {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            top: -12px;
+            left: 50%;
+            margin-left: -2.5px;
+            animation: moonOrbit 3s linear infinite;
+        }
+
+        @keyframes moonOrbit {
+            from { transform: rotate(0deg) translateY(-10px) rotate(0deg); }
+            to { transform: rotate(360deg) translateY(-10px) rotate(-360deg); }
+        }
+
+        .comet {
+            top: -4px;
+            right: 10%;
+            width: 8px;
+            height: 8px;
+            border: 1.5px solid #000;
+            border-radius: 50%;
+        }
+
+        .comet::after {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: -20px;
+            width: 20px;
+            height: 1px;
+            background: linear-gradient(to left, #000, transparent);
+        }
+
+        .nebula {
+            top: -10px;
+            left: 15%;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+        }
+
+        .nebula-dot {
+            position: absolute;
+            border: 1px solid #000;
+            border-radius: 50%;
+        }
+
+        .nebula-dot:nth-child(1) { width: 4px; height: 4px; top: 2px; left: 8px; }
+        .nebula-dot:nth-child(2) { width: 6px; height: 6px; top: 8px; left: 3px; }
+        .nebula-dot:nth-child(3) { width: 3px; height: 3px; top: 6px; left: 13px; }
+        .nebula-dot:nth-child(4) { width: 5px; height: 5px; top: 13px; left: 9px; }
+        .nebula-dot:nth-child(5) { width: 3px; height: 3px; top: 1px; left: 2px; }
+
+        .asteroid {
+            top: -5px;
+            left: 20%;
+            width: 9px;
+            height: 7px;
+            border: 1.5px solid #000;
+            border-radius: 40% 60% 50% 40%;
+        }
+
+        .dwarf-planet {
+            bottom: -3px;
+            left: 50%;
+            margin-left: -4px;
+            width: 7px;
+            height: 7px;
+            border: 1px dashed #000;
+            border-radius: 50%;
+        }
+
+        /* Deep Space Objects */
+        .deep-space-object {
+            position: absolute;
+            cursor: pointer;
+            z-index: 4;
+            transition: transform 0.3s ease;
+        }
+
+        .deep-space-object:hover {
+            transform: scale(1.3);
+        }
+
+        .deep-space-object .caption-label {
+            position: absolute;
+            white-space: nowrap;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.75rem;
+            color: #000;
+            letter-spacing: 0.08em;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .deep-space-object.active .caption-label {
+            opacity: 1;
+        }
+
+        /* Black Hole */
+        .black-hole {
+            top: 5%;
+            right: -8%;
+            width: 50px;
+            height: 50px;
+        }
+
+        .black-hole-core {
+            width: 20px;
+            height: 20px;
+            border: 2.5px solid #000;
+            border-radius: 50%;
+            background: #000;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -10px 0 0 -10px;
+        }
+
+        .black-hole-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 50px;
+            border: 1.5px solid rgba(0,0,0,0.3);
+            border-radius: 50%;
+            transform: rotateX(65deg);
+        }
+
+        .black-hole-ring::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border: 1px dashed rgba(0,0,0,0.15);
+            border-radius: 50%;
+            animation: orbit 10s linear infinite;
+        }
+
+        /* Spiral Galaxy */
+        .spiral-galaxy {
+            bottom: 8%;
+            left: -10%;
+            width: 70px;
+            height: 70px;
+        }
+
+        .galaxy-arm {
+            position: absolute;
+            width: 30px;
+            height: 1.5px;
+            background: #000;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0 0;
+            opacity: 0.6;
+        }
+
+        .galaxy-arm::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 1.5px;
+            background: rgba(0,0,0,0.3);
+            top: -4px;
+            left: 6px;
+            transform: rotate(25deg);
+            transform-origin: 0 0;
+        }
+
+        .galaxy-arm:nth-child(1) { transform: rotate(0deg); }
+        .galaxy-arm:nth-child(2) { transform: rotate(90deg); }
+        .galaxy-arm:nth-child(3) { transform: rotate(180deg); }
+        .galaxy-arm:nth-child(4) { transform: rotate(270deg); }
+
+        .galaxy-core {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            margin: -5px 0 0 -5px;
+        }
+
+        .spiral-galaxy-wrapper {
+            animation: slowSpin 120s linear infinite;
+        }
+
+        @keyframes slowSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Pulsar */
+        .pulsar {
+            top: 70%;
+            right: -6%;
+            width: 36px;
+            height: 36px;
+        }
+
+        .pulsar-core {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            margin: -5px 0 0 -5px;
+        }
+
+        .pulsar-beam {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 35px;
+            height: 1.5px;
+            background: linear-gradient(to right, #000, transparent);
+            transform-origin: 0 0;
+            animation: pulsarSpin 4s linear infinite;
+        }
+
+        .pulsar-beam:nth-child(2) {
+            animation-delay: 0s;
+            transform: rotate(180deg);
+        }
+
+        @keyframes pulsarSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .pulsar-wave {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            margin: -12px 0 0 -12px;
+            border: 1px solid rgba(0,0,0,0.2);
+            border-radius: 50%;
+            animation: pulsarPulse 2s ease-out infinite;
+        }
+
+        .pulsar-wave:nth-child(4) {
+            animation-delay: 1s;
+        }
+
+        @keyframes pulsarPulse {
+            0% { transform: scale(0.5); opacity: 0.6; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        /* Binary Star */
+        .binary-star {
+            top: 8%;
+            left: -7%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .binary-pair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 36px;
+            height: 36px;
+            margin: -18px 0 0 -18px;
+            animation: binaryOrbit 8s linear infinite;
+        }
+
+        .binary-pair .star-a,
+        .binary-pair .star-b {
+            position: absolute;
+            border: 1.5px solid #000;
+            border-radius: 50%;
+        }
+
+        .binary-pair .star-a {
+            width: 14px;
+            height: 14px;
+            top: 0;
+            left: 50%;
+            margin-left: -7px;
+        }
+
+        .binary-pair .star-b {
+            width: 10px;
+            height: 10px;
+            bottom: 0;
+            left: 50%;
+            margin-left: -5px;
+        }
+
+        @keyframes binaryOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Distant Stars - scattered dots */
+        .distant-star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            opacity: 0.3;
+            cursor: pointer;
+            z-index: 3;
+            transition: transform 0.3s ease;
+        }
+
+        .distant-star:hover {
+            transform: scale(2);
+            opacity: 0.6;
+        }
+
+        .distant-star.twinkle {
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .distant-star.twinkle-slow {
+            animation: twinkle 5s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.15; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Ringed Planet (Saturn-like) */
+        .ringed-planet {
+            bottom: 3%;
+            right: -12%;
+            width: 50px;
+            height: 36px;
+        }
+
+        .ringed-planet-body {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            margin: -11px 0 0 -11px;
+        }
+
+        .ringed-planet-ring {
+            position: absolute;
+            width: 50px;
+            height: 16px;
+            border: 1.5px solid rgba(0,0,0,0.5);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            margin: -8px 0 0 -25px;
+        }
+
+        /* Constellation - abstract, asymmetric */
+        .constellation {
+            top: 38%;
+            left: -12%;
+            width: 70px;
+            height: 80px;
+        }
+
+        .constellation-star {
+            position: absolute;
+            border: 1px solid #000;
+            border-radius: 50%;
+        }
+
+        .constellation-star:nth-child(1) { width: 5px; height: 5px; top: 0; left: 40px; }
+        .constellation-star:nth-child(2) { width: 7px; height: 7px; top: 18px; left: 12px; }
+        .constellation-star:nth-child(3) { width: 4px; height: 4px; top: 30px; left: 55px; }
+        .constellation-star:nth-child(4) { width: 6px; height: 6px; top: 50px; left: 28px; }
+        .constellation-star:nth-child(5) { width: 3px; height: 3px; top: 42px; left: 5px; }
+        .constellation-star:nth-child(6) { width: 5px; height: 5px; top: 68px; left: 48px; }
+        .constellation-star:nth-child(7) { width: 4px; height: 4px; top: 12px; left: 60px; }
+
+        .constellation-line {
+            position: absolute;
+            height: 1px;
+            background: rgba(0,0,0,0.15);
+            transform-origin: 0 0;
+        }
+
+        .constellation-line:nth-child(8)  { top: 2px; left: 42px; width: 32px; transform: rotate(145deg); }
+        .constellation-line:nth-child(9)  { top: 20px; left: 15px; width: 45px; transform: rotate(16deg); }
+        .constellation-line:nth-child(10) { top: 32px; left: 57px; width: 35px; transform: rotate(145deg); }
+        .constellation-line:nth-child(11) { top: 52px; left: 30px; width: 28px; transform: rotate(40deg); }
+        .constellation-line:nth-child(12) { top: 44px; left: 7px; width: 25px; transform: rotate(75deg); }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -214,7 +784,7 @@
         <div class="header">
             <div class="name">Benjamin Wang</div>
             <div class="nav-header">
-                <a href="thoughts.html">Thoughts</a>
+                <a href="treeofthoughts.html">Tree of Thoughts</a>
                 <a href="research.html">Research</a>
                 <a href="projects.html">Projects</a>
             </div>
@@ -225,16 +795,166 @@
             <img src="decor/ascii-photos/metro_ascii.png" alt="ASCII art">
         </div>
 
-        <div class="caption">one day i'll go back to the bay of naples.</div>
+        <div class="caption"> Dare to know. </div>
+        <section style="margin-top: 5rem; text-align: center; color: #000; border-bottom: none; overflow: visible;">
+            <h2 style="color: #000;">My Universe</h2>
 
+            <div class="solar-system">
+                <!-- Sun -->
+                <div class="sun celestial" data-name="Sol">
+                    <span class="caption-label">Sol</span>
+                </div>
+
+                <!-- Orbit 1: Small planet -->
+                <div class="orbit orbit-1">
+                    <div class="celestial planet-small" data-name="Caption">
+                        <span class="caption-label">Caption</span>
+                    </div>
+                </div>
+
+                <!-- Orbit 2: Planet with moon -->
+                <div class="orbit orbit-2">
+                    <div class="celestial planet-medium" data-name="Caption">
+                        <div class="moon"></div>
+                        <span class="caption-label">Caption</span>
+                    </div>
+                </div>
+
+                <!-- Orbit 3: Nebula cluster -->
+                <div class="orbit orbit-3">
+                    <div class="celestial nebula" data-name="Caption">
+                        <div class="nebula-dot"></div>
+                        <div class="nebula-dot"></div>
+                        <div class="nebula-dot"></div>
+                        <div class="nebula-dot"></div>
+                        <div class="nebula-dot"></div>
+                        <span class="caption-label">Caption</span>
+                    </div>
+                </div>
+
+                <!-- Orbit 4: Comet -->
+                <div class="orbit orbit-4">
+                    <div class="celestial comet" data-name="Caption">
+                        <span class="caption-label">Caption</span>
+                    </div>
+                </div>
+
+                <!-- Orbit 5: Asteroid -->
+                <div class="orbit orbit-5">
+                    <div class="celestial asteroid" data-name="Caption">
+                        <span class="caption-label">Caption</span>
+                    </div>
+                </div>
+
+                <!-- Orbit 6: Dwarf planet -->
+                <div class="orbit orbit-6">
+                    <div class="celestial dwarf-planet" data-name="Caption">
+                        <span class="caption-label">Caption</span>
+                    </div>
+                </div>
+
+                <!-- Deep Space: Black Hole -->
+                <div class="deep-space-object black-hole" data-name="Caption">
+                    <div class="black-hole-core"></div>
+                    <div class="black-hole-ring"></div>
+                    <span class="caption-label">Caption</span>
+                </div>
+
+                <!-- Deep Space: Spiral Galaxy -->
+                <div class="deep-space-object spiral-galaxy" data-name="Caption">
+                    <div class="spiral-galaxy-wrapper">
+                        <div class="galaxy-arm"></div>
+                        <div class="galaxy-arm"></div>
+                        <div class="galaxy-arm"></div>
+                        <div class="galaxy-arm"></div>
+                        <div class="galaxy-core"></div>
+                    </div>
+                    <span class="caption-label">Caption</span>
+                </div>
+
+                <!-- Deep Space: Pulsar -->
+                <div class="deep-space-object pulsar" data-name="Caption">
+                    <div class="pulsar-beam"></div>
+                    <div class="pulsar-beam"></div>
+                    <div class="pulsar-wave"></div>
+                    <div class="pulsar-wave"></div>
+                    <div class="pulsar-core"></div>
+                    <span class="caption-label">Caption</span>
+                </div>
+
+                <!-- Deep Space: Binary Star -->
+                <div class="deep-space-object binary-star" data-name="Caption">
+                    <div class="binary-pair">
+                        <div class="star-a"></div>
+                        <div class="star-b"></div>
+                    </div>
+                    <span class="caption-label">Caption</span>
+                </div>
+
+                <!-- Deep Space: Ringed Planet -->
+                <div class="deep-space-object ringed-planet" data-name="Caption">
+                    <div class="ringed-planet-body"></div>
+                    <div class="ringed-planet-ring"></div>
+                    <span class="caption-label">Caption</span>
+                </div>
+
+                <!-- Deep Space: Constellation -->
+                <div class="deep-space-object constellation" data-name="Caption">
+                    <div class="constellation-star"></div>
+                    <div class="constellation-star"></div>
+                    <div class="constellation-star"></div>
+                    <div class="constellation-star"></div>
+                    <div class="constellation-star"></div>
+                    <div class="constellation-star"></div>
+                    <div class="constellation-star"></div>
+                    <div class="constellation-line"></div>
+                    <div class="constellation-line"></div>
+                    <div class="constellation-line"></div>
+                    <div class="constellation-line"></div>
+                    <div class="constellation-line"></div>
+                    <span class="caption-label">Caption</span>
+                </div>
+
+                <!-- Distant Stars scattered wide -->
+                <div class="distant-star twinkle" style="top: 2%; left: -5%;"></div>
+                <div class="distant-star twinkle-slow" style="top: 10%; left: 30%;"></div>
+                <div class="distant-star twinkle" style="top: 18%; right: -3%;"></div>
+                <div class="distant-star twinkle-slow" style="top: 25%; left: -8%;"></div>
+                <div class="distant-star twinkle" style="top: 50%; right: -5%;"></div>
+                <div class="distant-star twinkle-slow" style="top: 60%; left: -4%;"></div>
+                <div class="distant-star twinkle" style="top: 78%; left: -7%;"></div>
+                <div class="distant-star twinkle-slow" style="top: 85%; right: -6%;"></div>
+                <div class="distant-star twinkle" style="top: 42%; right: -8%;"></div>
+                <div class="distant-star twinkle-slow" style="top: 5%; left: 65%;"></div>
+                <div class="distant-star twinkle" style="top: 93%; left: 35%;"></div>
+                <div class="distant-star twinkle-slow" style="top: 30%; left: 105%;"></div>
+                <div class="distant-star twinkle" style="top: 55%; left: -10%;"></div>
+                <div class="distant-star twinkle-slow" style="top: 70%; right: -10%;"></div>
+                <div class="distant-star twinkle" style="top: 15%; left: -12%;"></div>
+                <div class="distant-star twinkle-slow" style="top: 90%; left: -3%;"></div>
+            </div>
+        </section>
     </div>
 
     <!-- Social Links -->
     <div class="social-links">
-        <a href="https://x.com/YOUR_HANDLE" target="_blank">X</a>
-        <a href="https://github.com/YOUR_HANDLE" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/in/YOUR_HANDLE" target="_blank">LinkedIn</a>
-        <a href="mailto:YOUR_EMAIL">Contact</a>
+        <a href="https://x.com/bqnjaminwang" target="_blank">X</a>
+        <a href="https://github.com/benjaminW2025" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/benjaminwang29/" target="_blank">LinkedIn</a>
+        <a href="mailto:benjamin.wang.29@dartmouth.edu">Contact</a>
     </div>
+    <script>
+        document.querySelectorAll('.celestial, .deep-space-object').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const wasActive = el.classList.contains('active');
+                document.querySelectorAll('.celestial.active, .deep-space-object.active').forEach(c => c.classList.remove('active'));
+                if (!wasActive) el.classList.add('active');
+            });
+        });
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.celestial.active, .deep-space-object.active').forEach(c => c.classList.remove('active'));
+        });
+    </script>
 </body>
 </html>

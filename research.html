@@ -17,35 +17,43 @@
         body {
             font-family: 'Cormorant Garamond', 'Georgia', serif;
             font-weight: 300;
-            background-color: #000000;
-            color: #ffffff;
+            background-color: #ffffff;
+            color: #000000;
             line-height: 1.6;
+            min-height: 100vh;
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: baseline;
             padding: 2rem;
-            border-bottom: 1px solid #333333;
         }
 
         .name {
-            font-size: 1.2rem;
-            font-weight: 300;
+            color: #000;
+            font-size: 1.6rem;
+            font-weight: 600;
             letter-spacing: 0.05em;
+            margin-left: 7rem;
+        }
+
+        .name a {
+            text-decoration: none;
+            color: #000;
         }
 
         .nav-header {
             display: flex;
             gap: 2rem;
+            margin-right: 6rem;
         }
 
         .nav-header a {
             text-decoration: none;
-            color: #ffffff;
-            font-size: 1rem;
+            color: #000;
+            font-weight: 600;
+            font-size: 1.4rem;
             letter-spacing: 0.02em;
             transition: opacity 0.3s ease;
         }
@@ -54,56 +62,130 @@
             opacity: 0.7;
         }
 
-        /* Main Content */
-        .container {
-            width: 100%;
+        /* Dashboard */
+        .dashboard {
+            margin: 4rem 8rem;
+            font-family: 'Courier New', 'Consolas', monospace;
         }
 
-        /* Content Sections */
-        section {
-            padding: 2rem;
-            border-bottom: 1px solid #333333;
-        }
-
-        section h2 {
-            font-size: 1.5rem;
-            font-weight: 200;
+        .dashboard-title {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.4);
             margin-bottom: 1.5rem;
-            letter-spacing: 0.05em;
-            color: #ffffff;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav a {
-                font-size: 1rem;
-            }
+        .dashboard-title .cursor {
+            display: inline-block;
+            width: 6px;
+            height: 12px;
+            background: #000;
+            margin-left: 4px;
+            animation: blink 1s step-end infinite;
+        }
 
-            section h2 {
-                font-size: 1.3rem;
-            }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .dashboard-grid {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .dash-box {
+            flex: 1;
+            border: 1px solid rgba(0,0,0,0.15);
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .dash-box::before {
+            content: attr(data-label);
+            position: absolute;
+            top: -0.5rem;
+            left: 1rem;
+            background: #fff;
+            padding: 0 0.5rem;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.35);
+        }
+
+        .dash-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .dash-box li {
+            font-size: 0.85rem;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            letter-spacing: 0.02em;
+        }
+
+        .dash-box li:last-child {
+            border-bottom: none;
+        }
+
+        .dash-box li .status {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            border: 1px solid #000;
+            flex-shrink: 0;
+            margin-top: 0.5rem;
+        }
+
+        .dash-box li .status.active {
+            background: #000;
+        }
+
+        .dash-box li .meta {
+            margin-left: auto;
+            font-size: 0.65rem;
+            color: rgba(0,0,0,0.3);
+            letter-spacing: 0.1em;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <a href="index.html" style="text-decoration: none; color: #ffffff;">
-                <div class="name">Benjamin Wang</div>
-            </a>
-            <div class="nav-header">
-                <a href="thoughts.html">Thoughts</a>
-                <a href="research.html">Research</a>
-                <a href="projects.html">Projects</a>
+    <div class="header">
+        <div class="name"><a href="index.html">Benjamin Wang</a></div>
+        <div class="nav-header">
+            <a href="treeofthoughts.html">Tree of Thoughts</a>
+            <a href="research.html">Research</a>
+            <a href="projects.html">Projects</a>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="dashboard-grid">
+            <div class="dash-box" data-label="Affliations">
+                <ul>
+                    <li><span class="status active"></span>LISP Lab<span class="meta">Dec 2025—Present</span></li>
+
+                </ul>
+            </div>
+            <div class="dash-box" data-label="Ongoing projects">
+                <ul>
+                    <li><span class="status active"></span>Robust vision models via complex-valued neural networks advised by Prof. Chin in LISP Lab<span class="meta">ongoing</span></li>
+                    <li><span class="status active"></span>Target propagation group advised by Prof. Chin in LISP Lab<span class="meta">ongoing</span></li>
+                </ul>
+            </div>
+            <div class="dash-box" data-label="interests + future work">
+                <ul>
+                    <li><span class="status active"></span>Interpretability<span class="meta">active</span></li>
+                    <li><span class="status active"></span>setwithfriends Q-learning model<span class="meta">active</span></li>
+                </ul>
             </div>
         </div>
-
-        <!-- Research Section -->
-        <section id="research">
-            <h2>Research</h2>
-            <p>Coming soon...</p>
-        </section>
     </div>
 </body>
 </html>
