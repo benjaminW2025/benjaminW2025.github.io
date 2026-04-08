@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+    <title>Interpreting the greater than capability in GPT-2 Small — Benjamin Wang</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #fafafa; color: #222; font-family: 'IBM Plex Mono', monospace; font-size: 14px; line-height: 1.6; min-height: 100vh; }
+        a { color: inherit; text-decoration: none; }
+        .container { max-width: 720px; margin: 0 auto 0 8%; padding: 0 2rem; }
+
+        header { padding: 4rem 0 2rem; border-bottom: 1px solid #e8e8e8; }
+        .name { font-size: 1.1rem; letter-spacing: 0.15em; color: #111; }
+        nav { padding: 1.8rem 0; border-bottom: 1px solid #e8e8e8; display: flex; gap: 2rem; }
+        nav a { font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: #777; transition: color 0.15s; }
+        nav a:hover { color: #111; }
+
+        /* Post */
+        .post { padding: 3rem 0; max-width: 640px; }
+
+        .post-meta { display: flex; gap: 1.5rem; align-items: baseline; margin-bottom: 2rem; }
+        .post-date { font-size: 0.8rem; color: #999; }
+        .post-tag { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: #bbb; }
+
+        .post h1 {
+            font-size: 1rem;
+            font-weight: normal;
+            color: #111;
+            line-height: 1.5;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .post p { color: #444; margin-bottom: 1.4rem; line-height: 1.8; }
+        .post p:last-child { margin-bottom: 0; }
+
+        .post code {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9em;
+            background: #f0f0f0;
+            padding: 0.1em 0.35em;
+            border-radius: 2px;
+            color: #333;
+        }
+
+        .post .fig {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .post .fig img {
+            max-width: 100%;
+            height: auto;
+            display: inline-block;
+        }
+        .post .fig.multi img {
+            max-width: 48%;
+            margin: 0 0.5%;
+        }
+        .post .fig.triple img {
+            max-width: 31%;
+            margin: 0 0.5%;
+        }
+
+        .post .section-break {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 2.5rem 0;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        .post-footer a { color: #777; border-bottom: 1px solid #ddd; transition: color 0.15s; }
+        .post-footer a:hover { color: #111; }
+
+        .back { margin-bottom: 2rem; }
+        .back a { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: #aaa; transition: color 0.15s; }
+        .back a:hover { color: #111; }
+
+        footer { padding: 2rem 0; display: flex; gap: 1.5rem; font-size: 0.8rem; align-items: center; }
+        footer a { display: flex; align-items: center; gap: 0.4rem; color: #777; transition: color 0.15s; }
+        footer a:hover { color: #111; }
+        footer svg { width: 13px; height: 13px; }
+        footer .icon-mail { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        footer .icon-github { fill: currentColor; stroke: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="name">benjamin wang</a>
+        </header>
+        <nav>
+            <a href="../about.html">About</a>
+            <a href="../blog.html">Blog</a>
+            <a href="../notes.html">Notes</a>
+        </nav>
+
+        <article class="post">
+            <div class="back"><a href="../blog.html">← back</a></div>
+
+            <div class="post-meta">
+                <span class="post-date">2026-04-08</span>
+                <span class="post-tag">project</span>
+            </div>
+
+            <h1>Interpreting the greater than capability in GPT-2 Small<br>(recreation and extension of <a href="https://arxiv.org/abs/2305.00586" target="_blank" style="border-bottom:1px solid #ddd;">Hanna et al. 2023</a>)</h1>
+
+            <p>Language models as old as GPT-2 have demonstrated many interesting capabilities, including the ability to compute certain mathematical tasks. In order to understand these largely blackboxed machines, it is a natural question to ask how language models carry out such computations within their internals. This post will detail my procedures and findings as I aim to recreate the findings made by Hanna et al. in their paper "How does GPT-2 compute greater-than?".</p>
+
+            <p>All of my experiments were run on GPT-2 Small, loaded through the <a href="https://github.com/TransformerLensOrg/TransformerLens" target="_blank">TransformerLens</a> library written by Neel Nanda.</p>
+
+            <p>GPT-2 Small is really bad at math. Asking it to evaluate even simple expressions proves to be a difficult task. But there are implicit mathematical tasks encoded in the natural language text that the model is trained on. In the original Hanna et al. paper, the researchers use prompts written in a natural language setting that force the model to try and predict a number larger than some comparison number. An example pulled directly from the paper is the next token prediction of: <em>"The war lasted from the year 1732 to the year 17"</em>. By studying how such prompts are processed internally, we can build an understanding of how GPT-2 Small computes greater than. The work in this post will focus on identifying the circuit in GPT-2 Small which computes greater than.</p>
+
+            <p>Limited by compute and time, there were some simplifications that we had to make to keep the scope of the project reasonable to execute. For example, while the paper studied prompts of the form "The [noun] lasted from the year YYXX to the year YY", sampling [noun] from a word bank and YY from the set {11, ..., 17}, we will use a fixed prompt: "The war lasted from the year 18XX to the year 18". XX is a two digit value in {01, ..., 99} which allows us to measure the model's performance on a range of year spans within our prompt. (Why 18? Well, I naively wanted to be slightly different from the paper, but years beginning with 18 should also fall well within the context of the prompt.)</p>
+
+            <hr class="section-break">
+
+            <p>The first week of this project was spent focused on building a general understanding of what components are important for the greater than computation. We do so in a few ways: logit lens visualization, ablation tests, and attention pattern analysis.</p>
+
+            <p>A logit lens is a mechanistic interpretability technique used to visualize how a model's prediction develops throughout its layers. It is computed by applying the final projection layer of the output at a hidden layer to get a sort of premature logits (hence the name). We compute the logit lens across every XX prompt at once to measure the model's behavior on the task as a whole. Once a model's layer is successfully computing greater than, we would expect to see diagonal structure emerge in that layer's logit lens to illustrate the model's predictions favoring predicted tokens which are greater than XX. Notably, by plotting the logit lens for every layer in GPT-2 Small, we see diagonal structure faintly emerging as early as layer 5, and solidifies by layer 9.</p>
+
+            <div class="fig">
+                <img src="../files/blog/project%20one/figures/logit_lens_layer_9_png.png" alt="Logit lens at layer 9">
+            </div>
+
+            <p>The development of diagonal structure beginning in layer 5 suggests that all layers after and including layer 5 should be contributing to the greater than computation.</p>
+
+            <p>Naturally, we want to investigate further. Knowing which layers seem important is still not convincing enough; we want to get specific. Although the paper jumps directly into path patching, ablation tests are a much simpler route to start off with.</p>
+
+            <p>We run ablation tests on two things: the model's attention layers, and the model's components. Ablating the layers provide more evidence supporting the developing hypothesis that the later layers compute greater than, and ablating components allows us to narrow down which specific internals are necessary. Our metric of comparison will be the binary accuracy of the model, computed across all 99 instances of XX. A prediction is correct if the predicted token is greater than XX. The baseline accuracy is 94 correct out of 99.</p>
+
+            <p>Considering GPT-2 Small's 144 attention heads and 12 MLPs as components, we run ablation tests on the attention layers by zeroing their outputs. Interestingly, ablating the attention outputs does not yield a significant decrease in accuracy in most layers. Only ablating layers 0 and 9 cause a significant drop in binary accuracy. Since our logit lens indicates that layers 5 through 8 should aid in computing greater than but the attention ablation tests do not reveal any notable drops in performance, we suspect that the attention outputs of these layers must be indirectly contributing to the circuit.</p>
+
+            <p>Next we run ablation tests on individual components. Measuring the changes in model accuracy, we find that <code>l0.h10</code> and <code>l9.h1</code> must be important to the greater than circuit, with ablated accuracies of 18/99 and 90/99 respectively. Interestingly, the role of layer 0 seems localized to <code>l0.h10</code> at first glance, but ablating every head except for <code>l0.h10</code> causes accuracy to plummet to zero. For efficacy, assume that layer 0 as a whole is a key player in the circuit.</p>
+
+            <p>We find much more interesting results when ablating the MLPs. This in itself is a fundamental result — the greater than circuit is MLP dependent. Ablating MLPs 0, 9, and 10 independently yields accuracies of 0, 77, and 88 out of 99 prompts.</p>
+
+            <p>Unsurprisingly, the components of layer 0 are a necessity for the greater than circuit. Early layers tend to process foundational information by attending to positional information, first/last token, etc. It is also clear that MLP 9 must handle most of the heavy lifting in the greater than computation as its ablated accuracy is the lowest of all the MLP ablations.</p>
+
+            <p>Inspired by our previous results suggesting that attention layers 5 through 8 indirectly contribute to the greater than computation, we try ablating attention layers 7 and 8 together with MLP 9. These layers actually interact superadditively, with model accuracy dropping to 58/99, as opposed to the baseline 77/99 when ablating just MLP 9. We will look deeper into the role of upstream MLPs later in the project, but for now keep in mind that the circuit relies on some kind of interaction between the MLPs.</p>
+
+            <p>Finally, to conclude the week one investigation, we look at some attention heads to gather a big picture understanding of what individual components are contributing to the circuit. A pattern emerges: heads that lead to a drop in performance when ablated typically attended to the XX token, and a large portion of heads attended exclusively to the <code>&lt;endoftext&gt;</code> token. As a result, we suspect that information in the residual stream is cumulated in the <code>&lt;endoftext&gt;</code> token and that heads processing the XX token are vital for our circuit.</p>
+
+            <div class="fig multi">
+                <img src="../files/blog/project%20one/figures/attn_pat_l7_h2.png" alt="Attention pattern l7.h2">
+                <img src="../files/blog/project%20one/figures/attn_pat_l9_h1.png" alt="Attention pattern l9.h1">
+            </div>
+
+            <p>Looking back on week one, we now have a better idea of how our model computes greater than. Specific layers and components propagate useful information into the later MLPs which carry out the computation. Funnily, this first week took many iterations to finally get correct — halfway through, I realized I had formatted my prompts incorrectly, and on top of this, had forgotten to extend one-digit numbers to fit the XX format. It was after making these corrections that I finally arrived at these results. But we still don't know <em>how</em> the model is propagating information at each layer — only where information is moving.</p>
+
+            <hr class="section-break">
+
+            <p>Still with many unanswered questions, we proceed into the main focus of the project.</p>
+
+            <p>Path patching is a technique where you inject a corrupted output of a component along a specific edge in the model's computational graph to measure the importance of that specific edge.</p>
+
+            <p>That's a bit wordy. Let's think less abstractly. When accumulating the residual stream of the model, we throw the residual stream into a component, and use the output of that component (attention layer or MLP) and add it back into the residual stream. So if you think of the residual stream as the sum of all these aggregated components, you realize that the output of a component contributes to the residual stream in a number of ways: most obviously, directly through its output, but also through the contributions in the residual stream that get passed into downstream components.</p>
+
+            <p>When we path patch, we pick a specific relationship — say the output of layer 5 attention head 6 through MLP 10 — and measure this relationship's importance by replacing the clean relationship output with a corrupted one. The notation we use to indicate such a path is <code>(component, component, ..., logits)</code> to map out the order in which we traverse the model's internals to reach the logits.</p>
+
+            <p>Furthermore, since we are investigating the model at a lower level now, we must change our unit of accuracy. Before we used binary accuracy, which is a very polarizing metric and doesn't reflect more subtle changes in the model internals. Following the paper's procedures, we instead calculate the difference between the probability the model predicts greater than XX and the probability the model predicts less than or equal to XX. This is done by summing the softmax probabilities from 01 to XX, and XX+1 to 99, then taking their difference, normalized by the probability space defined by the predictions 01–99. If this difference is below zero, the model's performance decreased.</p>
+
+            <p>Another change to keep in mind: certain prompts (depending on how 18XX gets tokenized) may get tokenized into more or fewer tokens than others. We found that the majority of prompts got tokenized into 16 tokens, so our remaining experiments will be run on these so-called long prompts.</p>
+
+            <p>The obvious starting place is to patch <code>(component, logits)</code> to see which components directly contribute to the model's prediction. Our corrupted output will be derived from an inference done on the prompt "The war lasted from the year 1801 to the year 18". We use a corrupted prompt with a low start year (1801) so that patching with its activations should shift the model toward predicting years greater than 01 rather than the clean prompt's XX. The results of this path patching are below:</p>
+
+            <div class="fig">
+                <img src="../files/blog/project%20one/figures/direct_logit_patch.png" alt="Direct logit patch heatmap">
+            </div>
+
+            <p>Immediately our hypothesis that the circuit is MLP dependent is confirmed, with MLPs 8, 9, 10, and 11 all leading to a noticeable drop in performance. From here, we want to investigate how upstream components process information through these important MLPs, so next we path patch through <code>(component, MLP Y, logits)</code> where Y = 8, 9, 10, or 11.</p>
+
+            <div class="fig multi">
+                <img src="../files/blog/project%20one/figures/mlp_9_path_patch.png" alt="MLP 9 path patch">
+                <img src="../files/blog/project%20one/figures/mlp_8_path_patch.png" alt="MLP 8 path patch">
+            </div>
+
+            <p>Beginning with MLP 11, since it is the most downstream, we find that it is largely dependent on the MLPs upstream from it. Continuing upstream, we find MLP 10 also depends on upstream MLPs, and that MLP 9 depends heavily on <code>l9.h1</code>. Finally, path patching through MLP 8 reveals that <code>l5.h1</code>, <code>l5.h5</code>, <code>l6.h9</code>, <code>l7.h10</code>, <code>l8.h8</code>, and <code>l8.h11</code> all contribute to the circuit through MLP 8. All of these components will be considered a part of our circuit.</p>
+
+            <p>With the circuit components identified, we can perform our complete attention head analysis. Upon inspection, we see that <code>l5.h1</code> and <code>l5.h5</code> attend almost entirely to the <em>and</em> and <em>the year</em> tokens, suggesting that this is a starting point for when the model begins to process the year information used in the greater than computation. This pattern remains true when looking at <code>l6.h9</code> and <code>l7.h10</code>. Both <code>l8.h8</code> and <code>l8.h11</code> also attend to the token and the year tokens, just in a much more clear manner.</p>
+
+            <p>The behavior of these significant heads implies that the greater than computation relies heavily on attending to the XX token, which is expected since that is the comparison value used in the computation. Furthermore, since these heads are distributed across multiple layers, it makes sense that our week one layerwise ablation tests did not destroy the model's performance immediately.</p>
+
+            <p>Now we have a complete picture of what components, and through what paths, our circuit computes greater than. The upstream attention heads feed relevant information through MLPs 8 and 9, which in turn continue to propagate information downstream via the later MLPs which carry out the greater than task.</p>
+
+            <p>With that, we have essentially completed the paper recreation. In fact, our circuit identification results are nearly identical to the original paper's — the only difference being that they isolated and evaluated the circuit's performance on different prompts.</p>
+
+            <hr class="section-break">
+
+            <p>With the bulk of the hard work behind us, we look to see how we can extend beyond the paper's contributions. First, we note that the model underperforms on prompts that tokenize 18XX into a single token. We suspect it is because the model struggles to process the information encoded in the year as a whole and realize it must only compare the XX digits. Intuitively, it makes sense that predictions on a four-digit number are harder to conduct than on a two-digit number. Hence, this outlines one pitfall of the model.</p>
+
+            <p>Furthermore, in their generalizability section, the paper notes that one new prompt format required the addition of an extra MLP and two new attention heads to the circuit. Here we investigate which components need to be added, and try to piece together why.</p>
+
+            <p>First we rerun the path patching experiments on the prompt format "1599, 1607, 1633, 1679, 17XX, 17" — the prompt which led to these changes. The direct logit contribution heatmap looks very similar to our week two results on the original prompt format, with the possibility of the addition of <code>l11.h8</code>.</p>
+
+            <div class="fig">
+                <img src="../files/blog/project%20one/figures/direct_logit_patch_extension.png" alt="Direct logit patch (extension)">
+            </div>
+
+            <p>Now we move forward with iterative path patching through the late MLP layers. Notably, patching through MLP 10 reveals that <code>l10.h2</code> and <code>l10.h4</code> could also be new additions to our circuit. Closer inspection of their respective attention patterns reveals an interesting pattern among these three heads — they all closely attend to the thousands and hundreds place of the years, implying that these attention heads are what process the sequential pattern in our prompt.</p>
+
+            <div class="fig triple">
+                <img src="../files/blog/project%20one/figures/attn_pat_l10_h2_extension.png" alt="l10.h2 attention pattern">
+                <img src="../files/blog/project%20one/figures/attn_pat_l10_h4_extension.png" alt="l10.h4 attention pattern">
+                <img src="../files/blog/project%20one/figures/attn_pat_l11_h10_extension.png" alt="l11.h10 attention pattern">
+            </div>
+
+            <p>An interesting observation on the attention patterns generated by the new prompt is that the attention heads in later layers, like <code>l9.h1</code>, do not attend to the XX token and instead attend to the thousands and hundreds place tokens. This is a surprising find since we hypothesized in week two that the later attention layers are the ones which contribute information about the XX token to the MLPs. Furthermore, note that these important attention heads that we identified in week two are still necessary in the circuit computing this task, confirmed via path patching.</p>
+
+            <div class="fig">
+                <img src="../files/blog/project%20one/figures/attn_pat_l9_h1_extension.png" alt="l9.h1 attention pattern (extension)">
+            </div>
+
+            <p>Why would these attention heads' roles in the circuit suddenly change? Here we detail one possible explanation. Our previous prompt was formatted in such a way that predicting the correct output relied only on understanding XX, since the natural language setting made it clear that it was a greater than task. Our new prompt format requires the model to both recognize that the output should demonstrate greater than, and then compute it. This explains why these later heads are attending to the thousands and hundreds places: the model is incorporating the context of the prompt to recognize that it is being asked to compute greater than.</p>
+
+            <p>A close look at earlier attention layers reveals that layer two strongly attends to the XX token of each of the years in the sequence. Thus, the XX information is not absent in this circuit. It is likely that our initial hypothesis about <code>l9.h1</code> was not entirely correct, and these heads are not as specialized to attending to the XX token as we first anticipated. Instead, they are likely components which process year information into the residual stream to prepare the MLPs to complete the computation. The precise role of these heads is still unconfirmed and up to interpretation.</p>
+
+            <hr class="section-break">
+
+            <p>That concludes my first cleanly reproduced interpretability paper. I learned a number of new techniques from path patching to ablation strategies, and it was a great experience overall. If I had more time, I'd investigate further the computational pathways that matter for the circuit and maybe probe into the earlier layers to try and understand how basic information unrelated to greater than is propagated through the model.</p>
+
+            <p>For my current future projects, I'm experimenting with depth-recurrent transformers for the OpenAI parameter golf challenge with a couple of friends here at Dartmouth. All updates will be posted to my blog.</p>
+
+            <div class="post-footer">
+                <a href="https://github.com/benjaminW2025/greater-than-cap" target="_blank">github repo</a>
+            </div>
+        </article>
+
+        <footer>
+            <a href="https://github.com/benjaminw2025" target="_blank">
+                <svg class="icon-github" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                github
+            </a>
+            <a href="mailto:benjaminwang2025@gmail.com">
+                <svg class="icon-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+                email
+            </a>
+        </footer>
+    </div>
+</body>
+</html>
