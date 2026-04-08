@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
-    <title>Benjamin Wang</title>
+    <title>benjamin wang</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -61,7 +61,14 @@
             transition: color 0.15s;
         }
 
-        nav a:hover { color: #e0e0e0; }
+        nav a:hover { color: #111; }
+
+        /* About block */
+        .about { padding: 2rem 0 0; max-width: 480px; color: #444; line-height: 1.8; }
+        .about p { margin-bottom: 1.2rem; }
+        .about .label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: #777; margin-bottom: 0.4rem; }
+        .about a { color: #555; border-bottom: 1px solid #ddd; transition: color 0.15s; }
+        .about a:hover { color: #111; }
 
         /* Main */
         main {
@@ -128,26 +135,30 @@
             <div class="tagline">
                 // undergraduate student @ dartmouth college<br>
                 // major: mathematics & computer science<br>
-                // interests: ml research, interpretability,<br>
-                // human-centric ai
             </div>
         </header>
 
         <nav>
-            <a href="about.html">About</a>
             <a href="blog.html">Blog</a>
             <a href="notes.html">Notes</a>
         </nav>
 
-        <main>
-            <p class="section-label">Recent</p>
-            <ul class="entry-list">
-                <li>
-                    <a href="#"></a>
-                    <span class="entry-date">—</span>
-                </li>
-            </ul>
-        </main>
+        <div class="about">
+            <p class="label">// about</p>
+            <p>
+                i am a first year undergraduate at dartmouth college studying mathematics and computer science.
+                see my blog section to view my work (projects & research), and notes section to see school 
+                related writing including but not limited to problem sets, extra thoughts, and comments on coursework.
+                <br>
+                <br>
+                my academic interests span machine learning, mathematics, and computer science. in my
+                free time, i enjoy bouldering, updating my beli profile, and exploring the outdoors.
+                if you are interested in reaching out, please send me an email. my cv is attached below.
+
+            </p>
+            <p class="label">// cv</p>
+            <p><a href="files/Benjamin_Wang_CV (3).pdf" target="_blank">curriculum vitae</a></p>
+        </div>
 
         <footer>
             <a href="https://github.com/benjaminw2025" target="_blank">
