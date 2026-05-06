@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #fafafa; color: #222; font-family: 'CMU Serif', 'Computer Modern', Georgia, serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
+        body { background: #fafafa; color: #222;  font-size: 14px; line-height: 1.6; min-height: 100vh; }
         a { color: inherit; text-decoration: none; }
         .container { max-width: 720px; margin: 0 auto 0 8%; padding: 0 2rem; }
 
@@ -40,7 +40,7 @@
         .post ul li { margin-bottom: 0.4rem; }
 
         .post code {
-            font-family: 'CMU Serif', 'Computer Modern', Georgia, serif;
+            
             font-size: 0.9em;
             background: #f0f0f0;
             padding: 0.1em 0.35em;
@@ -226,7 +226,7 @@
                 Left: recovered radial alignment with $W$ for matrices of the form $G = \alpha \cdot W_1 + (1-\alpha) \cdot W_2$. Right: recovered radial alignment of matrices with different constructions w.r.t. $W$. Note that the direction of the recovered radial mass is actually inverted.
             </div>
 
-            <p>The increasing trajectory in the left figure provides evidence that the more correlated $G$ is with $W$, the higher the post-projection Newton-Schulz alignment with $A$ will be — despite the fact we removed any prior radial alignment. This finding supports our assumption that gradients in our actual model are highly correlated with the weights. Furthermore, Newton-Schulz actually inverts the direction of radial alignment, which is insignificant since the normalization layers of the nGPT discard the information. Regardless, the slope of $-0.65$ supports our idea that the radial mass is recovered.</p>
+            <p>The increasing trajectory in the left figure provides evidence that the more correlated $G$ is with $W_1$, the higher the post-projection Newton-Schulz alignment with $A$ will be — despite the fact we removed any prior radial alignment. This finding supports our assumption that gradients in our actual model are highly correlated with the weights. Furthermore, Newton-Schulz actually inverts the direction of radial alignment, which is insignificant since the normalization layers of the nGPT discard the information. Regardless, the slope of $-0.65$ supports our idea that the radial mass is recovered.</p>
 
             <p>More broadly, operations that don't break the $WA$ structure of the gradient will produce a similar result. Thus we propose a structural barrier to the naive adaptation of Muon to the hypersphere. Newton-Schulz will reliably reinject the radial information, and thus an effective change to recover the wasted effort spent on the radial signal would entail editing the Newton-Schulz operation, or finding a way to decorrelate the gradient without losing meaningful information.</p>
 
