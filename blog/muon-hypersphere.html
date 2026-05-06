@@ -200,14 +200,6 @@
 
             <p>The middle step uses $WW^\top = I$, our assumption that $W$ is approximately orthogonal. So $G_\text{tan} = WB$ for $B = A - W^\top D W$. The key point is that the left multiplication of $W$ stays, even after the projection.</p>
 
-            <p>Now we show that Newton-Schulz preserves this structure. Take the SVD $B = P\Sigma Q^\top$. Then</p>
-
-            $$G_\text{tan} = WB = (WP)\,\Sigma\, Q^\top.$$
-
-            <p>Newton-Schulz replaces all singular values with 1, giving</p>
-
-            $$H = \mathrm{NS}(G_\text{tan}) = WPQ^\top.$$
-
             <p>Projecting out radial components doesn't break the $W\cdot(\cdot)$ structure because $G_{\text{tan}} = WB$. Newton-Schulz then operates on this structured matrix. While we don't have a clean proof of why projection cannot suppress the radial mass, the empirical findings below suggest that $W$-correlation in $B$ propagates through Newton-Schulz and produces nonzero radial components in the output.</p>
 
             <p>The general intuition is that even after subtracting away the radial component of our update, the gradient remains highly correlated with the rows of $W$, and thus the Newton-Schulz computation does not operate on an uncorrelated matrix as we hoped. Why does it recover the original alignment so accurately? This is a result that I am unable to prove. I had Claude try to come up with a rigorous proof, but it produced a long proof that I understood very little of, along with an uncertain lower bound for the radial alignment.</p>
