@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+    <title>Playing golf on the hypersphere</title>
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']], tags: 'none' },
+            options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #fafafa; color: #222; font-family: 'IBM Plex Mono', monospace; font-size: 14px; line-height: 1.6; min-height: 100vh; }
+        a { color: inherit; text-decoration: none; }
+        .container { max-width: 720px; margin: 0 auto 0 8%; padding: 0 2rem; }
+
+        header { padding: 4rem 0 2rem; border-bottom: 1px solid #e8e8e8; }
+        .name { font-size: 1.1rem; letter-spacing: 0.15em; color: #111; }
+        nav { padding: 1.8rem 0; border-bottom: 1px solid #e8e8e8; display: flex; gap: 2rem; }
+        nav a { font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: #777; transition: color 0.15s; }
+        nav a:hover { color: #111; }
+
+        .post { padding: 3rem 0; max-width: 640px; }
+
+        .post-meta { display: flex; gap: 1.5rem; align-items: baseline; margin-bottom: 2rem; }
+        .post-date { font-size: 0.8rem; color: #999; }
+        .post-tag { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: #bbb; }
+
+        .post h1 { font-size: 1rem; font-weight: normal; color: #111; line-height: 1.5; margin-bottom: 2.5rem; letter-spacing: 0.02em; }
+        .post h2 { font-size: 0.8rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #777; margin: 2.5rem 0 1rem; }
+        .post h3 { font-size: 0.75rem; font-weight: normal; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin: 2rem 0 0.8rem; }
+
+        .post p { color: #444; margin-bottom: 1.4rem; line-height: 1.8; }
+        .post ul { color: #444; margin: 0 0 1.4rem 1.5rem; line-height: 1.8; }
+        .post ul li { margin-bottom: 0.4rem; }
+
+        .post code {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9em;
+            background: #f0f0f0;
+            padding: 0.1em 0.35em;
+            border-radius: 2px;
+            color: #333;
+        }
+
+        .post .fig { text-align: center; margin: 2rem 0; }
+        .post .fig img { max-width: 100%; height: auto; display: inline-block; }
+        .post .fig.w80 img { max-width: 80%; }
+        .post .fig.multi img { max-width: 48%; margin: 0 0.5%; }
+        .post .fig-caption { font-size: 0.75rem; color: #999; margin-top: 0.6rem; line-height: 1.5; }
+
+        .post .section-break { border: none; border-top: 1px solid #eee; margin: 2.5rem 0; }
+
+        .post .header-img { width: 100%; height: auto; display: block; margin-bottom: 2.5rem; }
+
+        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #eee; font-size: 0.8rem; color: #999; }
+        .post-footer a { color: #777; border-bottom: 1px solid #ddd; transition: color 0.15s; }
+        .post-footer a:hover { color: #111; }
+
+        .back { margin-bottom: 2rem; }
+        .back a { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: #aaa; transition: color 0.15s; }
+        .back a:hover { color: #111; }
+
+        .mjx-chtml { overflow-x: auto; }
+
+        footer { padding: 2rem 0; display: flex; gap: 1.5rem; font-size: 0.8rem; align-items: center; }
+        footer a { display: flex; align-items: center; gap: 0.4rem; color: #777; transition: color 0.15s; }
+        footer a:hover { color: #111; }
+        footer svg { width: 13px; height: 13px; }
+        footer .icon-mail { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        footer .icon-github { fill: currentColor; stroke: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="name">benjamin wang</a>
+        </header>
+        <nav>
+            <a href="../blog.html">Blog</a>
+            <a href="../notes.html">Notes</a>
+        </nav>
+
+        <article class="post">
+            <div class="back"><a href="../blog.html">← back</a></div>
+
+            <div class="post-meta">
+                <span class="post-date">2026-05-06</span>
+                <span class="post-tag">project</span>
+            </div>
+
+            <h1>Muon on the Hypersphere: Radial Components and Newton-Schulz Reinjection</h1>
+
+            <img class="header-img" src="../files/blog/project%20two/hypersphere.png" alt="">
+
+            <p>About four weeks ago, I stumbled across the OpenAI Parameter Golf Challenge. Inspired by the nanoGPT speedrun, Parameter Golf challenges participants to optimize val bpb loss under a submission size constraint of 16mb. Feeling adventurous, I opted to try and patch together a creative submission, ultimately leading me to experiment with manifold constrained architectures. Specifically, I spent the majority of the challenge playing around with the nGPT architecture and trying to adapt the Muon optimizer to the hypersphere geometry. Current Riemannian optimizers are either computationally expensive, or are specifically designed for fixed low rank matrices (LoRA). Since Muon does not naturally produce gradients that are tangent to the hypersphere, a significant portion (approximately 12%) of the update signal is wasted in the non-tangential direction.</p>
+
+            <p>This work was conducted alongside Max Lovitt. Thank you to OpenAI for sponsoring $525 worth of compute credits via Runpod which made all of these experiments possible.</p>
+
+            <h2>Introduction</h2>
+
+            <p>This blog will focus less on techniques which optimized for the Parameter Golf and rather on my investigation on the nGPT. All of the work, however, was motivated by the guidelines of the challenge. In order to maximize parameter efficiency of a model, it is natural to try and maximize the expressiveness of the model, which is a proposed benefit of manifold constrained architectures. The nGPT, proposed by Loshchilov et al., projects the representations and weights at every intermediate step of a transformer onto a hypersphere. Residual accumulation uses an approximation of SLERP (Spherical Linear Interpolation) to model learning representations as learning a point on the surface of this hypersphere. Due to the strong normalization built into the architecture, no LayerNorm or RMSNorm layers are used. MLP layers are implemented as SwigLU MLPs. The original paper uses the Adam optimizer, and since Muon has been the go-to optimizer in SOTA language models, our goal is to measure and try to adapt the Muon optimizer to this architecture.</p>
+
+            <p>In this post, we will discuss the following:</p>
+            <ul>
+                <li>a negative result indicating information in the radial component of gradient updates is mostly negligible to training when using a naive update projection on the manifold</li>
+                <li>Newton-Schulz reinjecting radial alignment in the gradient updates for our weights</li>
+            </ul>
+
+            <h2>The Radial Component</h2>
+
+            <p>We begin with some math. Consider an nGPT model $N$, and let $w$ be a vector in its weight matrices that lies on the hypersphere that the parameters of $N$ is constrained to. Suppose the gradient update produced by Muon, post Newton-Schulz and momentum, is $u$. It is important to note that $\lVert \mathbf{w} \rVert = 1, \lVert \mathbf{u} \rVert = 1.$ Then, for some sufficiently small step size $\eta$, we have that the updated weight $\mathbf{w}'$ is:</p>
+
+            $$\mathbf{w}' = \mathbf{w} + \eta \mathbf{u}.$$
+
+            <p>However, since $N$ projects all of its parameters back onto the hypersphere after each update, we have that:</p>
+
+            $$\mathbf{w}'_{\text{final}} = \frac{\mathbf{w}'}{\lVert \mathbf{w}' \rVert}.$$
+
+            <p>Intuitively, this means that for sufficiently small $\eta$, the meaningful part of the update is the one which is tangential to the surface of the hypersphere since the radially aligned component is squashed by magnitude normalization. Define $\mathbf{u}' = \langle \mathbf{u}, \mathbf{w} \rangle \mathbf{w}$ and $\mathbf{u}^\perp = \mathbf{u} - \langle \mathbf{u}, \mathbf{w} \rangle \mathbf{w}$. Then we have:</p>
+
+            $$\begin{align*}
+            \mathbf{w}'
+            &= \mathbf{w} + \eta (\mathbf{u}' + \mathbf{u}^\perp) \\
+            &= \mathbf{w} + \eta(\langle \mathbf{u},\mathbf{w} \rangle \mathbf{w} + \mathbf{u}^\perp) \\
+            &= \mathbf{w} + \eta \langle \mathbf{u},\mathbf{w} \rangle \mathbf{w} + \eta \mathbf{u}^\perp \\
+            &= \mathbf{w} (1 + \eta \langle \mathbf{u},\mathbf{w} \rangle) + \eta \mathbf{u}^\perp.
+            \end{align*}$$
+
+            <p>Building off our assumption that $\eta$ is sufficiently small, we have that:</p>
+
+            $$\begin{align*}
+            \lVert \mathbf{w}' \rVert^2
+            &= \lVert \mathbf{w} \rVert^2(1 + 2\eta \langle \mathbf{u},\mathbf{w} \rangle + \eta^2 \langle \mathbf{u}, \mathbf{w} \rangle^2) + \eta^2 \lVert \mathbf{u}^\perp \rVert^2 \\
+            &= 1 + 2\eta \langle \mathbf{u},\mathbf{w} \rangle + \eta^2 \langle \mathbf{u}, \mathbf{w} \rangle^2 + \eta^2 \lVert \mathbf{u}^\perp \rVert^2 \\
+            &\approx 1 + 2\eta \langle \mathbf{u},\mathbf{w} \rangle + \eta^2 \langle \mathbf{u}, \mathbf{w} \rangle^2 \\
+            &= (1 + \eta\langle \mathbf{u}, \mathbf{w} \rangle)^2
+            \end{align*}$$
+
+            <p>giving $\lVert \mathbf{w}' \rVert \approx 1 + \eta \langle \mathbf{u},\mathbf{w} \rangle$. Hence,</p>
+
+            $$\mathbf{w}'_\text{final} = \frac{\mathbf{w}(1 + \eta \langle \mathbf{u},\mathbf{w} \rangle) + \eta \mathbf{u}^\perp}{1 + \eta \langle \mathbf{u}, \mathbf{w} \rangle} = \mathbf{w} + \frac{\eta \mathbf{u}^\perp}{1 + \eta \langle \mathbf{u}, \mathbf{w} \rangle}.$$
+
+            <p>Interestingly, the radial component $\mathbf{u}'$ is completely removed from the equation (under the assumption that $\eta$ is sufficiently small).</p>
+
+            <p>What does this mean for our update gradient $\mathbf{u}$? Well, if the relative magnitude of the radial component $\mathbf{u}'$ is large, a significant portion of our signal is lost to normalization. From this, there are a number of natural directions that we can explore.</p>
+
+            <h2>Set Up</h2>
+
+            <p>Experiments were conducted on two slightly different nGPT models. Both models followed the standard implementation of the nGPT, as referenced in Loshchilov et al. Transformer blocks were implemented with RoPE, multi-headed attention, and SwigLU MLPs.</p>
+
+            <p>Our training setup for the two models differed only by a single computation pre-Newton-Schulz. The baseline model computes gradients just like the standard Muon optimizer, and our modified model projects the gradient matrix onto the hypersphere prior to Newton-Schulz.</p>
+
+            <p>Why project into the tangent space prior to Newton-Schulz if this does not guarantee the transformed gradient to also be tangentially aligned? The main benefit of the Muon optimizer is in the balancing of the singular values. If the Newton-Schulz step is operating on a matrix with radially aligned information, it is possible that Newton-Schulz is wasting signal by balancing the singular values along a radially aligned axis. We hypothesize that pre-projection may correct for this loss.</p>
+
+            <p>Models were trained with the following setup:</p>
+            <ul>
+                <li><code>num_layers = 9</code></li>
+                <li><code>d_model = 512</code></li>
+                <li><code>num_heads = 8</code></li>
+                <li><code>alpha_s_init = 0.05</code></li>
+                <li><code>train_batch = 524,288</code></li>
+                <li><code>val_batch = 524,288</code></li>
+                <li><code>num_steps = 9,810</code> (number of steps the baseline could fit in 10 minutes)</li>
+            </ul>
+
+            <h2>Findings</h2>
+
+            <p>We present findings suggesting that for the naive implementation of a hypersphere-adapted Muon, discarding the radial component does not yield measurable benefit. Furthermore, we hypothesize that pre-projecting the update gradient onto the tangent space fails to even get rid of the final update's radial alignment.</p>
+
+            <p>The first notable find was that the naive projection did not provide measurable training benefits (see the Extra section for more figures). This is both expected and unexpected. Our derivation above already indicates that the radial component is projected out by the model's normalization of its weights, so pre-projecting the update is redundant. However, our hypothesis was not that there was wasted signal in the radial components, but rather that projection onto the tangent space allows Newton-Schulz to balance the singular values of a geometrically correct matrix. This leads us to model the effect of our pre-Newton-Schulz projection on the fraction of radially aligned information in our update:</p>
+
+            <div class="fig w80">
+                <img src="../files/blog/project%20two/radial_frac_training.png" alt="Radial mass fraction over training steps">
+                <div class="fig-caption">Radial mass fraction plotted over training steps. Blue line represents the raw gradient's radial mass fraction; orange line represents the post-Newton-Schulz radial mass fraction. Note that raw gradients are projected to 0 radial alignment prior to Newton-Schulz.</div>
+            </div>
+
+            <p>Interestingly, it seems that Newton-Schulz has injected the radially aligned information (at least, an approximately equal amount of radial mass) back into our updates. How is this possible if we have already squashed all of the radial signal in our update?</p>
+
+            <p>Here we offer a mechanistic explanation. We first model a gradient update $G$ with its correlation to a weight matrix $W$ under two assumptions: first, in a hypersphere constrained model, the weight matrices are approximately orthogonal (see Extra section for supporting evidence); and second, that activations are $W$-correlated from their computation, and momentum accumulates gradients that are $W$-aligned. Then, for some matrix $A$, we model $G = WA$.</p>
+
+            <h3>Newton-Schulz Radial Reconstruction</h3>
+
+            <p>We have a weight matrix $W$ whose rows are unit vectors and approximately orthogonal to each other (this is what Muon and nGPT push $W$ toward).</p>
+
+            <p>The radial component of row $i$ of $G$ is the part that points along $W_i$. On nGPT, radial updates do nothing, because normalization erases them. So the natural fix is: project out the radial part of $G$ before applying Newton-Schulz.</p>
+
+            <p>The claim: this doesn't work. Newton-Schulz puts the radial component back. Here's why.</p>
+
+            <p>Let $D = \mathrm{diag}(GW^\top)$ be the diagonal matrix whose $i$-th entry is the dot product representing the radial alignment of each row of $G$ with each row of $W$.</p>
+
+            $$G_\text{tan} = G - DW.$$
+
+            <p>This still has the form "$W$ times something":</p>
+
+            $$G_\text{tan} = WA - DW = WA - WW^\top D W = W(A - W^\top D W).$$
+
+            <p>The middle step uses $WW^\top = I$, our assumption that $W$ is approximately orthogonal. So $G_\text{tan} = WB$ for $B = A - W^\top D W$. The key point is that the left multiplication of $W$ stays, even after the projection.</p>
+
+            <p>Now we show that Newton-Schulz preserves this structure. Take the SVD $B = P\Sigma Q^\top$. Then</p>
+
+            $$G_\text{tan} = WB = (WP)\,\Sigma\, Q^\top.$$
+
+            <p>Newton-Schulz replaces all singular values with 1, giving</p>
+
+            $$H = \mathrm{NS}(G_\text{tan}) = WPQ^\top.$$
+
+            <p>Projecting out radial components doesn't break the $W\cdot(\cdot)$ structure because $G_{\text{tan}} = WB$. Newton-Schulz then operates on this structured matrix. While we don't have a clean proof of why projection cannot suppress the radial mass, the empirical findings below suggest that $W$-correlation in $B$ propagates through Newton-Schulz and produces nonzero radial components in the output.</p>
+
+            <p>The general intuition is that even after subtracting away the radial component of our update, the gradient remains highly correlated with the rows of $W$, and thus the Newton-Schulz computation does not operate on an uncorrelated matrix as we hoped. Why does it recover the original alignment so accurately? This is a result that I am unable to prove. I had Claude try to come up with a rigorous proof, but it produced a long proof that I understood very little of, along with an uncertain lower bound for the radial alignment.</p>
+
+            <h3>Experimental Results</h3>
+
+            <p>We provide empirical evidence supporting this hypothesis, as well as an interesting observation suggesting that while Newton-Schulz preserves the radial mass of a pre-projected gradient, it actually inverts the direction of the radial alignment.</p>
+
+            <p>We run two experiments. One using randomly generated matrices $W_1, W_2$ to model a gradient matrix $G = \alpha \cdot W_1 + (1-\alpha) \cdot W_2$. We vary the value of $\alpha$, project the matrix's radial component with $W_1$, and run Newton-Schulz on this tangential matrix to compute the final radial alignment. Secondly, we plot the radial alignment behavior of different constructions of $G$ to support our theory that the preservation of left multiplication of $W$ when subtracting the radial component is what leads to the post-Newton-Schulz correlation.</p>
+
+            <div class="fig multi">
+                <img src="../files/blog/project%20two/correlation_evidence.png" alt="Recovered radial alignment">
+                <img src="../files/blog/project%20two/correlation.png" alt="Radial alignment by construction">
+            </div>
+            <div class="fig-caption" style="text-align:center; margin-top: -1rem; margin-bottom: 2rem;">
+                Left: recovered radial alignment with $W$ for matrices of the form $G = \alpha \cdot W_1 + (1-\alpha) \cdot W_2$. Right: recovered radial alignment of matrices with different constructions w.r.t. $W$. Note that the direction of the recovered radial mass is actually inverted.
+            </div>
+
+            <p>The increasing trajectory in the left figure provides evidence that the more correlated $G$ is with $W$, the higher the post-projection Newton-Schulz alignment with $A$ will be — despite the fact we removed any prior radial alignment. This finding supports our assumption that gradients in our actual model are highly correlated with the weights. Furthermore, Newton-Schulz actually inverts the direction of radial alignment, which is insignificant since the normalization layers of the nGPT discard the information. Regardless, the slope of $-0.65$ supports our idea that the radial mass is recovered.</p>
+
+            <p>More broadly, operations that don't break the $WA$ structure of the gradient will produce a similar result. Thus we propose a structural barrier to the naive adaptation of Muon to the hypersphere. Newton-Schulz will reliably reinject the radial information, and thus an effective change to recover the wasted effort spent on the radial signal would entail editing the Newton-Schulz operation, or finding a way to decorrelate the gradient without losing meaningful information.</p>
+
+            <h2>Conclusion</h2>
+
+            <p>We present initial findings about the behavior of Newton-Schulz and the radial component of updates produced by Muon. Our intuition that $G$ is correlated with $W$ is supported by empirical evidence, but the proof of the mechanism explaining it remains an unsolved and open question.</p>
+
+            <p>This project was a fun tangent to the original Parameter Golf challenge. Although I did not end up developing a competitive pull request, it was insightful to learn about manifold constrained architectures. I also developed some research habits to carry forward — specifically, how to reasonably scope experiments and produce clean sweeps to see what changes produced benefits.</p>
+
+            <p>For my future work, I plan to continue doing projects in interpretability. I will likely not conduct any independent projects for the next five weeks as I have a final project for a compressed sensing class, and a theoretical probability class that I need to complete. I will try to tailor both of these to my machine learning interests, and if the projects end up being successful, I'll publish them on my blog. Until then!</p>
+
+            <hr class="section-break">
+
+            <h2>Extra</h2>
+
+            <p>Plots referenced in the footnotes above, in order.</p>
+
+            <div class="fig w80">
+                <img src="../files/blog/project%20two/output.png" alt="Training loss over steps">
+                <div class="fig-caption">Training loss measured over all 9,810 training steps. Shows no significant improvement from the naive projection.</div>
+            </div>
+
+            <div class="fig w80">
+                <img src="../files/blog/project%20two/orthogonality.png" alt="Orthogonality of weight matrices">
+                <div class="fig-caption">Orthogonality of weight matrices throughout training. Random baseline is estimated to hover around 22.0.</div>
+            </div>
+
+            <div class="post-footer">
+                written with Max Lovitt
+            </div>
+        </article>
+
+        <footer>
+            <a href="https://github.com/benjaminw2025" target="_blank">
+                <svg class="icon-github" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                github
+            </a>
+            <a href="mailto:benjaminwang2025@gmail.com">
+                <svg class="icon-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+                email
+            </a>
+        </footer>
+    </div>
+</body>
+</html>
