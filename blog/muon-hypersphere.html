@@ -102,7 +102,7 @@
 
             <h2>Introduction</h2>
 
-            <p>This blog will focus less on techniques which optimized for the Parameter Golf and rather on my investigation on the nGPT. All of the work, however, was motivated by the guidelines of the challenge. In order to maximize parameter efficiency of a model, it is natural to try and maximize the expressiveness of the model, which is a proposed benefit of manifold constrained architectures. The nGPT, proposed by Loshchilov et al., projects the representations and weights at every intermediate step of a transformer onto a hypersphere. Residual accumulation uses an approximation of SLERP (Spherical Linear Interpolation) to model learning representations as learning a point on the surface of this hypersphere. Due to the strong normalization built into the architecture, no LayerNorm or RMSNorm layers are used. MLP layers are implemented as SwigLU MLPs. The original paper uses the Adam optimizer, and since Muon has been the go-to optimizer in SOTA language models, our goal is to measure and try to adapt the Muon optimizer to this architecture.</p>
+            <p>This blog will focus less on techniques which optimized for the Parameter Golf and rather on my investigation on the nGPT. All of the work, however, was motivated by the guidelines of the challenge. In order to maximize parameter efficiency of a model, it is natural to try and maximize the expressiveness of the model, which is a proposed benefit of manifold constrained architectures. The nGPT, proposed by Loshchilov et al., projects the representations and weights at every intermediate step of a transformer onto a hypersphere. Residual accumulation uses an approximation of SLERP (Spherical Linear Interpolation) to model learning representations as learning a point on the surface of this hypersphere. Due to the strong normalization built into the architecture, no LayerNorm or RMSNorm layers are used. MLP layers are implemented as SwiGLU MLPs. The original paper uses the Adam optimizer, and since Muon has been the go-to optimizer in SOTA language models, our goal is to measure and try to adapt the Muon optimizer to this architecture.</p>
 
             <p>In this post, we will discuss the following:</p>
             <ul>
@@ -150,7 +150,7 @@
 
             <h2>Set Up</h2>
 
-            <p>Experiments were conducted on two slightly different nGPT models. Both models followed the standard implementation of the nGPT, as referenced in Loshchilov et al. Transformer blocks were implemented with RoPE, multi-headed attention, and SwigLU MLPs.</p>
+            <p>Experiments were conducted on two slightly different nGPT models. Both models followed the standard implementation of the nGPT, as referenced in Loshchilov et al. Transformer blocks were implemented with RoPE, multi-headed attention, and SwiGLU MLPs.</p>
 
             <p>Our training setup for the two models differed only by a single computation pre-Newton-Schulz. The baseline model computes gradients just like the standard Muon optimizer, and our modified model projects the gradient matrix onto the hypersphere prior to Newton-Schulz.</p>
 
@@ -243,7 +243,7 @@
 
             <div class="fig w80">
                 <img src="../files/blog/project%20two/orthogonality.png" alt="Orthogonality of weight matrices">
-                <div class="fig-caption">Orthogonality of weight matrices throughout training. Random baseline is estimated to hover around 22.0.</div>
+                <div class="fig-caption">Orthogonality of weight matrices throughout training (L2 norm of ). Random baseline for matrices with unit norm rows was computed to be 22.6745.</div>
             </div>
 
             <div class="post-footer">
