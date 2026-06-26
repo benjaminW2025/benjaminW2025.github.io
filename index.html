@@ -22,6 +22,10 @@
 
         a { color: inherit; text-decoration: none; }
 
+        .mono {
+            font-family: 'Computer Modern Typewriter', 'CMU Typewriter Text', monospace;
+        }
+
         .split {
             flex: 1;
             display: flex;
@@ -35,42 +39,68 @@
 
         /* Left column */
         .left {
-            flex: 0 0 300px;
+            flex: 0 0 320px;
+        }
+
+        .eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            color: #b31b1b;
+            margin-bottom: 0.9rem;
         }
 
         .name {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: normal;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.02em;
+            color: #000;
+            margin-bottom: 0.2rem;
+        }
+
+        .name sup {
+            font-size: 0.6rem;
+            color: #555;
+        }
+
+        .affil {
+            font-size: 0.72rem;
+            letter-spacing: 0.02em;
+            color: #777;
+            margin-bottom: 1.4rem;
+        }
+
+        .abstract-box {
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding: 1.2rem 0;
+            margin-bottom: 1.4rem;
+        }
+
+        .abstract-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: bold;
             color: #000;
             margin-bottom: 0.6rem;
         }
 
-        .tagline {
-            color: #000;
-            font-size: 0.85rem;
-            letter-spacing: 0.03em;
-            margin-bottom: 1.6rem;
-        }
-
-        .about-text {
-            color: #000;
+        .abstract-box p {
+            color: #222;
             line-height: 1.85;
-            font-size: 0.92rem;
-            margin-bottom: 1.6rem;
+            font-size: 0.88rem;
+            text-align: justify;
         }
 
         .cv-link {
             display: inline-block;
-            font-size: 0.78rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #000;
-            border-bottom: 1px solid #bbb;
-            transition: border-color 0.15s;
+            font-size: 0.72rem;
+            letter-spacing: 0.04em;
+            color: #b31b1b;
         }
 
-        .cv-link:hover { border-color: #000; }
+        .cv-link::before { content: '→ '; }
+        .cv-link:hover { text-decoration: underline; }
 
         /* Right column */
         .right {
@@ -81,8 +111,9 @@
 
         .tabs {
             display: flex;
-            gap: 1.8rem;
-            margin-bottom: 1.8rem;
+            gap: 1.6rem;
+            margin-bottom: 1.6rem;
+            border-bottom: 1px solid #ddd;
         }
 
         .tab {
@@ -91,16 +122,16 @@
             cursor: pointer;
             font-family: inherit;
             font-size: 0.78rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: #aaa;
-            padding: 0 0 0.5rem;
+            letter-spacing: 0.05em;
+            color: #999;
+            padding: 0 0 0.6rem;
             border-bottom: 2px solid transparent;
             transition: color 0.15s, border-color 0.15s;
         }
 
+        .tab::before { content: '§ '; }
         .tab:hover { color: #444; }
-        .tab.active { color: #000; border-color: #000; }
+        .tab.active { color: #b31b1b; border-color: #b31b1b; }
 
         .scroll-wrap {
             position: relative;
@@ -110,42 +141,36 @@
         .scroll-list {
             max-height: 360px;
             overflow-y: auto;
-            padding-left: 1.6rem;
-            border-left: 1px dashed #ccc;
             -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
             mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
         }
 
         .entry-item {
-            position: relative;
-            margin-bottom: 2rem;
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
         }
 
         .entry-item:last-child { margin-bottom: 0.5rem; }
 
-        .entry-item::before {
-            content: '';
-            position: absolute;
-            left: -1.6rem;
-            top: 0.55em;
-            width: 1.1rem;
-            border-top: 1px dashed #ccc;
+        .entry-num {
+            flex-shrink: 0;
+            color: #b31b1b;
+            font-size: 0.85rem;
         }
 
-        .entry-item a {
+        .entry-body a {
             display: block;
-            font-weight: bold;
             color: #000;
             margin-bottom: 0.3rem;
             transition: color 0.15s;
         }
 
-        .entry-item a:hover { color: #555; }
+        .entry-body a:hover { color: #555; }
 
-        .entry-item .entry-desc {
-            color: #777;
-            font-size: 0.85rem;
-            line-height: 1.7;
+        .entry-body .entry-desc {
+            color: #888;
+            font-size: 0.78rem;
         }
 
         .entry-empty {
@@ -159,35 +184,35 @@
             max-width: 980px;
             width: 100%;
             margin: 0 auto;
-            display: flex;
-            gap: 1.5rem;
-            color: #000;
-            font-size: 0.8rem;
-            align-items: center;
+            color: #555;
+            font-size: 0.78rem;
+            border-top: 1px solid #eee;
         }
-        footer a { display: flex; align-items: center; gap: 0.4rem; }
-        footer svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-        footer a { color: #000; transition: color 0.15s; }
-        footer a:hover { color: #555; }
+        footer a { color: #b31b1b; }
+        footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="split">
         <div class="left">
-            <div class="name">benjamin wang</div>
-            <div class="tagline">
-                # undergraduate @ dartmouth college<br>
-                # mathematics &amp; computer science
+            <div class="eyebrow mono">[self/web] · personal page</div>
+            <div class="name">Benjamin Wang<sup>1</sup></div>
+            <div class="affil mono">1. Dartmouth College — Mathematics &amp; Computer Science</div>
+
+            <div class="abstract-box">
+                <div class="abstract-label">Abstract</div>
+                <p>
+                    I study math and cs, with interests spanning machine learning and theory.
+                    Section &sect;1 lists recent posts and notes. Correspondence and the full cv
+                    are linked below.
+                </p>
             </div>
-            <p class="about-text">
-                i study math and cs, with interests spanning machine learning and theory.
-                see the right for recent blog posts and notes. if you'd like to reach out, send me an email.
-            </p>
-            <a class="cv-link" href="files/Benjamin_Wang_CV (3).pdf" target="_blank">curriculum vitae</a>
+
+            <a class="cv-link mono" href="files/Benjamin_Wang_CV (3).pdf" target="_blank">curriculum vitae</a>
         </div>
 
         <div class="right">
-            <div class="tabs">
+            <div class="tabs mono">
                 <button class="tab active" data-tab="blog">Blog</button>
                 <button class="tab" data-tab="notes">Notes</button>
             </div>
@@ -197,15 +222,9 @@
         </div>
     </div>
 
-    <footer>
-        <a href="https://github.com/benjaminw2025" target="_blank">
-            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-            github
-        </a>
-        <a href="mailto:benjaminwang2025@gmail.com">
-            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
-            email
-        </a>
+    <footer class="mono">
+        correspondence to <a href="mailto:benjaminwang2025@gmail.com">benjaminwang2025@gmail.com</a> ·
+        code at <a href="https://github.com/benjaminw2025" target="_blank">github.com/benjaminw2025</a>
     </footer>
 
     <script>
@@ -226,10 +245,13 @@
                 list.innerHTML = '<p class="entry-empty">nothing here yet.</p>';
                 return;
             }
-            list.innerHTML = items.map(e => `
+            list.innerHTML = items.map((e, i) => `
                 <div class="entry-item">
-                    <a href="${e.href}">${e.title}</a>
-                    <div class="entry-desc">${e.desc}</div>
+                    <span class="entry-num mono">[${i + 1}]</span>
+                    <div class="entry-body">
+                        <a href="${e.href}">${e.title}</a>
+                        <div class="entry-desc mono">${e.desc}</div>
+                    </div>
                 </div>
             `).join('');
         }
