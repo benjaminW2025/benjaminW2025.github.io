@@ -3,173 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css">
     <title>benjamin wang</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background: #fafafa;
-            color: #222;
+            background: #fff;
+            color: #000;
             font-family: 'CMU Serif', 'Computer Modern', Georgia, serif;
             font-size: 14px;
             line-height: 1.6;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         a { color: inherit; text-decoration: none; }
 
-        /* Layout */
-        .container {
-            max-width: 480px;
-            margin: 0 auto 0 8%;
-            padding: 0 2rem;
+        .split {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 5rem;
+            max-width: 980px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 3rem 3rem;
         }
 
-        /* Header */
-        header {
-            padding: 4rem 0 2rem;
+        /* Left column */
+        .left {
+            flex: 0 0 300px;
         }
 
         .name {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: normal;
             letter-spacing: 0.15em;
-            color: #111;
+            color: #000;
+            margin-bottom: 0.6rem;
         }
 
         .tagline {
-            margin-top: 0.4rem;
-            color: #555;
+            color: #000;
             font-size: 0.85rem;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.03em;
+            margin-bottom: 1.6rem;
         }
 
-        /* Nav */
-        nav {
-            padding: 1.8rem 0;
+        .about-text {
+            color: #000;
+            line-height: 1.85;
+            font-size: 0.92rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .cv-link {
+            display: inline-block;
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #000;
+            border-bottom: 1px solid #bbb;
+            transition: border-color 0.15s;
+        }
+
+        .cv-link:hover { border-color: #000; }
+
+        /* Right column */
+        .right {
+            flex: 1;
+            min-width: 0;
+            max-width: 460px;
+        }
+
+        .tabs {
             display: flex;
-            gap: 2rem;
+            gap: 1.8rem;
+            margin-bottom: 1.8rem;
         }
 
-        nav a {
-            font-size: 0.8rem;
+        .tab {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.78rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: #555;
+            color: #aaa;
+            padding: 0 0 0.5rem;
+            border-bottom: 2px solid transparent;
+            transition: color 0.15s, border-color 0.15s;
+        }
+
+        .tab:hover { color: #444; }
+        .tab.active { color: #000; border-color: #000; }
+
+        .scroll-wrap {
+            position: relative;
+            max-height: 360px;
+        }
+
+        .scroll-list {
+            max-height: 360px;
+            overflow-y: auto;
+            padding-left: 1.6rem;
+            border-left: 1px dashed #ccc;
+            -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+        }
+
+        .entry-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .entry-item:last-child { margin-bottom: 0.5rem; }
+
+        .entry-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.55em;
+            width: 1.1rem;
+            border-top: 1px dashed #ccc;
+        }
+
+        .entry-item a {
+            display: block;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 0.3rem;
             transition: color 0.15s;
         }
 
-        nav a:hover { color: #111; }
+        .entry-item a:hover { color: #555; }
 
-        /* About block */
-        .about { padding: 2rem 0 0; max-width: 480px; color: #444; line-height: 1.8; }
-        .about p { margin-bottom: 1.2rem; }
-        .about .label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: #777; margin-bottom: 0.4rem; }
-        .about a { color: #555; border-bottom: 1px solid #ddd; transition: color 0.15s; }
-        .about a:hover { color: #111; }
-
-        /* Main */
-        main {
-            padding: 3rem 0;
+        .entry-item .entry-desc {
+            color: #777;
+            font-size: 0.85rem;
+            line-height: 1.7;
         }
 
-        .section-label {
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: #444;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Recent posts/entries list */
-        .entry-list {
-            list-style: none;
-            margin-bottom: 3rem;
-        }
-
-        .entry-list li {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #eee;
-            gap: 1rem;
-        }
-
-        .entry-list a {
-            color: #333;
-            transition: color 0.15s;
-        }
-
-        .entry-list a:hover { color: #111; }
-
-        .entry-date {
+        .entry-empty {
             color: #999;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            flex-shrink: 0;
+            font-size: 0.85rem;
         }
 
         /* Footer */
         footer {
-            padding: 2rem 0;
+            padding: 1.5rem 3rem 2rem;
+            max-width: 980px;
+            width: 100%;
+            margin: 0 auto;
             display: flex;
             gap: 1.5rem;
-            color: #333;
+            color: #000;
             font-size: 0.8rem;
             align-items: center;
         }
         footer a { display: flex; align-items: center; gap: 0.4rem; }
         footer svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-        footer a { color: #444; transition: color 0.15s; }
-        footer a:hover { color: #111; }
+        footer a { color: #000; transition: color 0.15s; }
+        footer a:hover { color: #555; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
+    <div class="split">
+        <div class="left">
             <div class="name">benjamin wang</div>
             <div class="tagline">
-                // undergraduate student @ dartmouth college<br>
-                // major: mathematics & computer science<br>
+                # undergraduate @ dartmouth college<br>
+                # mathematics &amp; computer science
             </div>
-        </header>
-
-        <nav>
-            <a href="blog.html">Blog</a>
-            <a href="notes.html">Notes</a>
-        </nav>
-
-        <div class="about">
-            <p class="label">// about</p>
-            <p>
-                i am a first year undergraduate at dartmouth college studying mathematics and computer science.
-                see my blog section to view my work (projects & research), and notes section to see life 
-                related writing including but not limited to problem sets, extra thoughts, and comments on coursework.
-                <br>
-                <br>
-                my academic interests span machine learning, mathematics, and computer science. in my
-                free time, i enjoy bouldering, updating my beli profile, and exploring the outdoors.
-                if you are interested in reaching out, please send me an email. my cv is attached below.
-
+            <p class="about-text">
+                i study math and cs, with interests spanning machine learning and theory.
+                see the right for recent blog posts and notes. if you'd like to reach out, send me an email.
             </p>
-            <p class="label">// cv</p>
-            <p><a href="files/Benjamin_Wang_CV (3).pdf" target="_blank">curriculum vitae</a></p>
+            <a class="cv-link" href="files/Benjamin_Wang_CV (3).pdf" target="_blank">curriculum vitae</a>
         </div>
 
-        <footer>
-            <a href="https://github.com/benjaminw2025" target="_blank">
-                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-                github
-            </a>
-            <a href="mailto:benjaminwang2025@gmail.com">
-                <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
-                email
-            </a>
-        </footer>
+        <div class="right">
+            <div class="tabs">
+                <button class="tab active" data-tab="blog">Blog</button>
+                <button class="tab" data-tab="notes">Notes</button>
+            </div>
+            <div class="scroll-wrap">
+                <div class="scroll-list" id="scrollList"></div>
+            </div>
+        </div>
     </div>
+
+    <footer>
+        <a href="https://github.com/benjaminw2025" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            github
+        </a>
+        <a href="mailto:benjaminwang2025@gmail.com">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            email
+        </a>
+    </footer>
+
+    <script>
+        const entries = {
+            blog: [
+                { title: 'Playing golf on a hypersphere', href: 'blog/muon-hypersphere.html', desc: 'project — 2026-05-06' },
+                { title: 'Interpreting the greater than capability in GPT-2 Small', href: 'blog/gpt2-greater-than.html', desc: 'project — 2026-04-08' }
+            ],
+            notes: []
+        };
+
+        const list = document.getElementById('scrollList');
+        const tabs = document.querySelectorAll('.tab');
+
+        function render(tab) {
+            const items = entries[tab];
+            if (!items.length) {
+                list.innerHTML = '<p class="entry-empty">nothing here yet.</p>';
+                return;
+            }
+            list.innerHTML = items.map(e => `
+                <div class="entry-item">
+                    <a href="${e.href}">${e.title}</a>
+                    <div class="entry-desc">${e.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                render(tab.dataset.tab);
+            });
+        });
+
+        render('blog');
+    </script>
 </body>
 </html>

@@ -1,0 +1,94 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: #fff;
+    color: #111;
+    font-family: 'CMU Serif', 'Computer Modern', Georgia, serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 640px; margin: 0 auto; padding: 0 2rem; }
+
+/* Header */
+header { padding: 3.5rem 0 1.5rem; }
+.name { font-size: 1.05rem; letter-spacing: 0.15em; color: #000; }
+
+nav { padding: 0.5rem 0 2.5rem; display: flex; gap: 1.8rem; }
+nav a { font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: #aaa; padding-bottom: 0.4rem; border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s; }
+nav a:hover { color: #555; }
+nav a.active { color: #000; border-color: #000; }
+
+/* Post */
+.post { padding: 0 0 4rem; }
+
+.post-meta { display: flex; gap: 1.2rem; align-items: baseline; margin-bottom: 2.2rem; }
+.post-date { font-size: 0.78rem; color: #999; }
+.post-tag { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: #bbb; }
+
+.post h1 {
+    font-size: 1.15rem;
+    font-weight: normal;
+    color: #000;
+    line-height: 1.55;
+    margin-bottom: 2.2rem;
+    letter-spacing: 0.01em;
+}
+
+.post h2 { font-size: 0.78rem; font-weight: normal; letter-spacing: 0.2em; text-transform: uppercase; color: #555; margin: 2.8rem 0 1.1rem; }
+.post h3 { font-size: 0.74rem; font-weight: normal; letter-spacing: 0.14em; text-transform: uppercase; color: #888; margin: 2.2rem 0 0.9rem; }
+
+.post p { color: #222; margin-bottom: 1.4rem; line-height: 1.85; }
+.post p:last-child { margin-bottom: 0; }
+.post em { color: #000; }
+
+.post ul { color: #222; margin: 0 0 1.4rem 1.5rem; line-height: 1.85; }
+.post ul li { margin-bottom: 0.4rem; }
+
+.post a { border-bottom: 1px solid #ccc; transition: border-color 0.15s, color 0.15s; }
+.post a:hover { border-color: #000; }
+
+.post code {
+    font-size: 0.9em;
+    background: #f0f0f0;
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+    color: #000;
+}
+
+.post .fig { text-align: center; margin: 2.2rem 0; }
+.post .fig img { max-width: 100%; height: auto; display: inline-block; }
+.post .fig.w80 img { max-width: 80%; }
+.post .fig.multi img { max-width: 48%; margin: 0 0.5%; }
+.post .fig.triple img { max-width: 31%; margin: 0 0.5%; }
+.post .fig-caption { font-size: 0.75rem; color: #999; margin-top: 0.7rem; line-height: 1.6; }
+
+.post .section-break {
+    border: none;
+    text-align: center;
+    margin: 3rem 0;
+    height: 1em;
+    color: #ccc;
+    font-size: 0.7rem;
+    letter-spacing: 0.5em;
+}
+.post .section-break::before { content: '— — —'; }
+
+.post .header-img { width: 100%; height: auto; display: block; margin-bottom: 2.8rem; }
+
+.post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px dashed #ddd; font-size: 0.8rem; color: #999; }
+.post-footer a { color: #555; border-bottom: 1px solid #ccc; }
+.post-footer a:hover { color: #000; }
+
+.mjx-chtml { overflow-x: auto; }
+
+/* Footer */
+footer { padding: 2rem 0 3rem; display: flex; gap: 1.5rem; font-size: 0.8rem; align-items: center; }
+footer a { display: flex; align-items: center; gap: 0.4rem; color: #000; transition: color 0.15s; }
+footer a:hover { color: #555; }
+footer svg { width: 13px; height: 13px; }
+footer .icon-mail { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+footer .icon-github { fill: currentColor; stroke: none; }
