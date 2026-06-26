@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css">
+    <title>About — benjamin wang</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #fff; color: #222; font-family: 'CMU Serif', 'Computer Modern', Georgia, serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
+        a { color: inherit; text-decoration: none; }
+        .mono { font-family: 'Computer Modern Typewriter', 'CMU Typewriter Text', monospace; }
+        .container { max-width: 680px; margin: 0 auto; padding: 0 2rem; }
+
+        header { padding: 3.5rem 0 1.5rem; }
+        .eyebrow { font-size: 0.7rem; letter-spacing: 0.05em; color: #b31b1b; margin-bottom: 0.6rem; }
+        .name { font-size: 1.1rem; letter-spacing: 0.02em; color: #000; }
+
+        nav { padding: 0.5rem 0 2.2rem; display: flex; gap: 1.6rem; border-bottom: 1px solid #ddd; }
+        nav a { font-size: 0.78rem; letter-spacing: 0.05em; color: #999; padding-bottom: 0.6rem; border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s; }
+        nav a::before { content: '§ '; }
+        nav a:hover { color: #444; }
+        nav a.active { color: #b31b1b; border-color: #b31b1b; }
+
+        main { padding: 2.5rem 0 4rem; }
+
+        .arxiv-id { color: #999; font-size: 0.75rem; margin-bottom: 1.8rem; }
+        .arxiv-id .accent { color: #b31b1b; }
+
+        .paper-title { font-size: 1.3rem; font-weight: normal; color: #000; line-height: 1.5; margin-bottom: 0.6rem; }
+        .paper-authors { color: #444; font-size: 0.92rem; margin-bottom: 1.8rem; }
+        .paper-authors a { border-bottom: 1px solid #ccc; }
+        .paper-authors a:hover { border-color: #000; }
+
+        .abstract-box { border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 1.3rem 0; margin-bottom: 1.6rem; }
+        .abstract-label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: bold; color: #000; margin-bottom: 0.8rem; }
+        .abstract-box p { color: #222; line-height: 1.9; font-size: 0.92rem; text-align: justify; margin-bottom: 1rem; }
+        .abstract-box p:last-child { margin-bottom: 0; }
+
+        .meta-fields { font-size: 0.78rem; color: #666; line-height: 2; margin-bottom: 2.2rem; }
+        .meta-fields .field-label { color: #000; font-weight: bold; }
+        .meta-fields .accent { color: #b31b1b; }
+
+        .actions { display: flex; gap: 1rem; margin-bottom: 0.5rem; }
+        .btn {
+            display: inline-block;
+            padding: 0.55rem 1.1rem;
+            font-size: 0.78rem;
+            letter-spacing: 0.03em;
+            color: #b31b1b;
+            border: 1px solid #b31b1b;
+            transition: background 0.15s, color 0.15s;
+        }
+        .btn:hover { background: #b31b1b; color: #fff; }
+        .btn.secondary { color: #555; border-color: #ccc; }
+        .btn.secondary:hover { background: #555; color: #fff; border-color: #555; }
+
+        footer { padding: 1.5rem 0 3rem; color: #555; font-size: 0.78rem; border-top: 1px solid #eee; margin-top: 2.5rem; }
+        footer a { color: #b31b1b; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="eyebrow mono">[self/web] · personal page</div>
+            <a href="index.html" class="name">benjamin wang</a>
+        </header>
+        <nav class="mono">
+            <a href="blog.html">Blog</a>
+            <a href="notes.html">Notes</a>
+            <a href="about.html" class="active">About</a>
+        </nav>
+        <main>
+            <p class="arxiv-id mono">arXiv:<span class="accent">2026.0625</span>v1 [self.ID] 25 Jun 2026</p>
+
+            <h1 class="paper-title">A Survey of Benjamin Wang</h1>
+            <p class="paper-authors">Benjamin Wang<sup>1</sup> — <a href="mailto:benjaminwang2025@gmail.com">benjaminwang2025@gmail.com</a></p>
+
+            <div class="abstract-box">
+                <div class="abstract-label">Abstract</div>
+                <p>
+                    We present a longitudinal case study of an undergraduate at Dartmouth College studying
+                    mathematics and computer science. The subject exhibits a strong prior toward machine
+                    learning and interpretability research, with recurring excursions into pure math and
+                    optimization theory. Observed behaviors include reading papers for fun, writing them up
+                    on a personal blog, and occasionally proving small lemmas that turn out to already be known.
+                </p>
+                <p>
+                    Outside of research, the subject is reliably found bouldering, logging meals on Beli,
+                    or outdoors in some capacity. No definitive explanation has been found for why these
+                    activities are pursued with the same intensity as research problems, though we suspect
+                    they are simply the same underlying drive pointed at different targets.
+                </p>
+                <p>
+                    We conclude that further longitudinal study is warranted. Correspondence regarding
+                    collaboration, questions, or corrections to this manuscript is welcome via email.
+                </p>
+            </div>
+
+            <div class="meta-fields mono">
+                <div><span class="field-label">Subjects:</span> Machine Learning (cs.LG); Mathematics (math.GM); Self-Reported (self.ID)</div>
+                <div><span class="field-label">Comments:</span> ongoing; corrections and collaborations welcome</div>
+                <div><span class="field-label">Cite as:</span> <span class="accent">arXiv:2026.0625</span> [self.ID]</div>
+            </div>
+
+            <div class="actions">
+                <a class="btn" href="files/Benjamin_Wang_CV (3).pdf" target="_blank">View PDF</a>
+                <a class="btn secondary" href="mailto:benjaminwang2025@gmail.com">Submit a Comment</a>
+            </div>
+        </main>
+
+        <footer class="mono">
+            correspondence to <a href="mailto:benjaminwang2025@gmail.com">benjaminwang2025@gmail.com</a> ·
+            code at <a href="https://github.com/benjaminw2025" target="_blank">github.com/benjaminw2025</a>
+        </footer>
+    </div>
+</body>
+</html>

@@ -11,23 +11,29 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
+.mono { font-family: 'Computer Modern Typewriter', 'CMU Typewriter Text', monospace; }
+
 .container { max-width: 640px; margin: 0 auto; padding: 0 2rem; }
 
 /* Header */
 header { padding: 3.5rem 0 1.5rem; }
-.name { font-size: 1.05rem; letter-spacing: 0.15em; color: #000; }
+.eyebrow { font-size: 0.7rem; letter-spacing: 0.05em; color: #b31b1b; margin-bottom: 0.6rem; font-family: 'Computer Modern Typewriter', 'CMU Typewriter Text', monospace; }
+.name { font-size: 1.05rem; letter-spacing: 0.02em; color: #000; }
 
-nav { padding: 0.5rem 0 2.5rem; display: flex; gap: 1.8rem; }
-nav a { font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: #aaa; padding-bottom: 0.4rem; border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s; }
-nav a:hover { color: #555; }
-nav a.active { color: #000; border-color: #000; }
+nav { padding: 0.5rem 0 2.2rem; display: flex; gap: 1.6rem; border-bottom: 1px solid #ddd; font-family: 'Computer Modern Typewriter', 'CMU Typewriter Text', monospace; }
+nav a { font-size: 0.78rem; letter-spacing: 0.05em; color: #999; padding-bottom: 0.6rem; border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s; }
+nav a::before { content: '§ '; }
+nav a:hover { color: #444; }
+nav a.active { color: #b31b1b; border-color: #b31b1b; }
 
 /* Post */
-.post { padding: 0 0 4rem; }
+.post { padding: 2.5rem 0 4rem; }
 
-.post-meta { display: flex; gap: 1.2rem; align-items: baseline; margin-bottom: 2.2rem; }
-.post-date { font-size: 0.78rem; color: #999; }
-.post-tag { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: #bbb; }
+.post-meta { display: flex; gap: 0.8rem; align-items: baseline; margin-bottom: 2.2rem; font-family: 'Computer Modern Typewriter', 'CMU Typewriter Text', monospace; }
+.post-date { font-size: 0.75rem; color: #999; }
+.post-tag { font-size: 0.75rem; color: #b31b1b; }
+.post-tag::before { content: '['; }
+.post-tag::after { content: ']'; }
 
 .post h1 {
     font-size: 1.15rem;
@@ -86,9 +92,6 @@ nav a.active { color: #000; border-color: #000; }
 .mjx-chtml { overflow-x: auto; }
 
 /* Footer */
-footer { padding: 2rem 0 3rem; display: flex; gap: 1.5rem; font-size: 0.8rem; align-items: center; }
-footer a { display: flex; align-items: center; gap: 0.4rem; color: #000; transition: color 0.15s; }
-footer a:hover { color: #555; }
-footer svg { width: 13px; height: 13px; }
-footer .icon-mail { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-footer .icon-github { fill: currentColor; stroke: none; }
+footer { padding: 1.5rem 0 3rem; color: #555; font-size: 0.78rem; border-top: 1px solid #eee; margin-top: 1rem; font-family: 'Computer Modern Typewriter', 'CMU Typewriter Text', monospace; }
+footer a { color: #b31b1b; }
+footer a:hover { text-decoration: underline; }
