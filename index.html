@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css">
-    <title>benjamin wang</title>
+    <title>Benjamin Wang</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y proximity;
+        }
 
         body {
             background: #fff;
@@ -15,9 +20,6 @@
             font-family: 'CMU Serif', 'Computer Modern', Georgia, serif;
             font-size: 14px;
             line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
         a { color: inherit; text-decoration: none; }
@@ -26,7 +28,33 @@
             font-family: 'Computer Modern Typewriter', 'CMU Typewriter Text', monospace;
         }
 
+        .panel {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero {
+            scroll-snap-align: start;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('decor/equations-bg.svg');
+            background-repeat: repeat;
+            background-size: 480px 380px;
+            -webkit-mask-image: radial-gradient(ellipse 65% 60% at 50% 50%, transparent 30%, black 95%);
+            mask-image: radial-gradient(ellipse 65% 60% at 50% 50%, transparent 30%, black 95%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .split {
+            position: relative;
+            z-index: 1;
             flex: 1;
             display: flex;
             align-items: center;
@@ -178,6 +206,74 @@
             font-size: 0.85rem;
         }
 
+        /* Scroll cue */
+        .scroll-cue {
+            position: absolute;
+            z-index: 1;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            color: #999;
+            transition: color 0.15s;
+        }
+        .scroll-cue:hover { color: #b31b1b; }
+        .scroll-cue .chevron {
+            font-size: 0.9rem;
+            animation: bob 1.8s ease-in-out infinite;
+        }
+        @keyframes bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        /* About / abstract panel */
+        .about-panel { align-items: flex-start; padding-top: 5rem; padding-bottom: 3rem; }
+        .about-container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .about-container.in-view { opacity: 1; transform: translateY(0); }
+
+        .arxiv-id { color: #999; font-size: 0.75rem; margin-bottom: 1.8rem; }
+        .arxiv-id .accent { color: #b31b1b; }
+
+        .paper-title { font-size: 1.3rem; font-weight: normal; color: #000; line-height: 1.5; margin-bottom: 0.6rem; }
+        .paper-authors { color: #444; font-size: 0.92rem; margin-bottom: 1.8rem; }
+        .paper-authors a { border-bottom: 1px solid #ccc; }
+        .paper-authors a:hover { border-color: #000; }
+
+        .about-panel .abstract-box p { margin-bottom: 1rem; }
+        .about-panel .abstract-box p:last-child { margin-bottom: 0; }
+
+        .meta-fields { font-size: 0.78rem; color: #666; line-height: 2; margin-bottom: 2.2rem; }
+        .meta-fields .field-label { color: #000; font-weight: bold; }
+        .meta-fields .accent { color: #b31b1b; }
+
+        .actions { display: flex; gap: 1rem; }
+        .btn {
+            display: inline-block;
+            padding: 0.55rem 1.1rem;
+            font-size: 0.78rem;
+            letter-spacing: 0.03em;
+            color: #b31b1b;
+            border: 1px solid #b31b1b;
+            transition: background 0.15s, color 0.15s;
+        }
+        .btn:hover { background: #b31b1b; color: #fff; }
+        .btn.secondary { color: #555; border-color: #ccc; }
+        .btn.secondary:hover { background: #555; color: #fff; border-color: #555; }
+
         /* Footer */
         footer {
             padding: 1.5rem 3rem 2rem;
@@ -193,35 +289,82 @@
     </style>
 </head>
 <body>
-    <div class="split">
-        <div class="left">
-            <div class="eyebrow mono">[self/web] · personal page</div>
-            <div class="name">Benjamin Wang<sup>1</sup></div>
-            <div class="affil mono">1. Dartmouth College — Department of Mathematics &amp; Department of Computer Science</div>
+    <section class="panel hero">
+        <div class="split">
+            <div class="left">
+                <div class="eyebrow mono">[self/web] · personal page</div>
+                <div class="name">Benjamin Wang<sup>1</sup></div>
+                <div class="affil mono">1. Dartmouth College — Department of Mathematics &amp; Department of Computer Science</div>
+
+                <div class="abstract-box">
+                    <div class="abstract-label">Abstract</div>
+                    <p>
+                        I study math and cs, with interests spanning multiple subfields of machine learning.
+                        Section &sect;1 lists recent posts and notes. Scroll down for the full abstract,
+                        or jump straight to the CV.
+                    </p>
+                </div>
+
+                <a class="cv-link mono" href="files/Benjamin_Wang_CV (3).pdf" target="_blank">curriculum vitae</a>
+            </div>
+
+            <div class="right">
+                <div class="tabs mono">
+                    <button class="tab active" data-tab="blog">Blog</button>
+                    <button class="tab" data-tab="notes">Notes</button>
+                </div>
+                <div class="scroll-wrap">
+                    <div class="scroll-list" id="scrollList"></div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#about" class="scroll-cue mono">
+            <span>full abstract</span>
+            <span class="chevron">⌄</span>
+        </a>
+    </section>
+
+    <section class="panel about-panel" id="about">
+        <div class="about-container" id="aboutContainer">
+            <p class="arxiv-id mono">arXiv:<span class="accent">2026.0625</span>v1 [self.ID] 25 Jun 2026</p>
+
+            <h1 class="paper-title">A Survey of Benjamin Wang</h1>
+            <p class="paper-authors">Benjamin Wang<sup>1</sup> — <a href="mailto:benjaminwang2025@gmail.com">benjaminwang2025@gmail.com</a></p>
 
             <div class="abstract-box">
                 <div class="abstract-label">Abstract</div>
                 <p>
-                    I study math and cs, with interests spanning multiple subfields of machine learning.
-                    Section &sect;1 lists recent posts and notes. Correspondence and the full CV
-                    are linked below.
+                    We present a longitudinal case study of an undergraduate at Dartmouth College studying
+                    mathematics and computer science. The subject exhibits a strong prior toward machine
+                    learning and interpretability research, with recurring excursions into pure math and
+                    optimization theory. Observed behaviors include reading papers for fun and writing them
+                    up on a personal blog.
+                </p>
+                <p>
+                    Outside of research, the subject is reliably found bouldering, logging meals on Beli,
+                    or outdoors in some capacity. No definitive explanation has been found for why these
+                    activities are pursued with the same intensity as research problems, though we suspect
+                    they are simply the same underlying drive pointed at different targets.
+                </p>
+                <p>
+                    We conclude that further longitudinal study is warranted. Correspondence regarding
+                    collaboration, questions, or corrections to this manuscript is welcome via email.
                 </p>
             </div>
 
-            <a class="cv-link mono" href="files/Benjamin_Wang_CV (3).pdf" target="_blank">curriculum vitae</a>
-            <a class="cv-link mono" href="about.html" style="margin-left: 1.2rem;">full abstract</a>
-        </div>
+            <div class="meta-fields mono">
+                <div><span class="field-label">Subjects:</span> Machine Learning (cs.LG); Mathematics (math.GM); Self-Reported (self.ID)</div>
+                <div><span class="field-label">Comments:</span> ongoing; corrections and collaborations welcome</div>
+                <div><span class="field-label">Cite as:</span> <span class="accent">arXiv:2026.0625</span> [self.ID]</div>
+            </div>
 
-        <div class="right">
-            <div class="tabs mono">
-                <button class="tab active" data-tab="blog">Blog</button>
-                <button class="tab" data-tab="notes">Notes</button>
-            </div>
-            <div class="scroll-wrap">
-                <div class="scroll-list" id="scrollList"></div>
+            <div class="actions">
+                <a class="btn" href="files/Benjamin_Wang_CV (3).pdf" target="_blank">View PDF</a>
+                <a class="btn secondary" href="mailto:benjaminwang2025@gmail.com">Submit a Comment</a>
             </div>
         </div>
-    </div>
+    </section>
 
     <footer class="mono">
         correspondence to <a href="mailto:benjaminwang2025@gmail.com">benjaminwang2025@gmail.com</a> ·
@@ -266,6 +409,14 @@
         });
 
         render('blog');
+
+        const aboutContainer = document.getElementById('aboutContainer');
+        const observer = new IntersectionObserver((entriesList) => {
+            entriesList.forEach(entry => {
+                if (entry.isIntersecting) aboutContainer.classList.add('in-view');
+            });
+        }, { threshold: 0.2 });
+        observer.observe(aboutContainer);
     </script>
 </body>
 </html>
