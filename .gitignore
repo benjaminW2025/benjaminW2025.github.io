@@ -1,1 +1,4 @@
-decor
+.DS_Store
+decor/photos/
+decor/ascii-photos/
+decor/ascii-image.py
